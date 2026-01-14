@@ -7,6 +7,6 @@ enum PostStatus: string
     case Draft = 'draft';
     case Pending = 'pending';
     case Published = 'published';
-	case Test = 'test';
-	case Test2 = 'test2';
+    case Test = 'test';
+    case Test2 = 'test2';
 }
