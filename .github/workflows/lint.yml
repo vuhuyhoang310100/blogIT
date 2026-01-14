@@ -91,4 +91,3 @@ jobs:
 
       - name: Run Prettier Check
         run: npm run format:check
-1

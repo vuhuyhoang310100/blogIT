@@ -7,10 +7,11 @@ type AuthProps = {
 };
 
 export function usePermissions() {
-	const {props} = usePage<AuthProps>();
+	const { props } = usePage<AuthProps>();
 	const permissions = props.auth?.permissions || [];
 
-	const can = (permission: string): boolean => permissions.includes(permission);
+	const can = (permission: string): boolean =>
+		permissions.includes(permission);
 
-	return {can};
+	return { can };
 }

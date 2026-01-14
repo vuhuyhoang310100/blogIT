@@ -1,4 +1,4 @@
-import { useDialogStore } from "./dialog-store";
+import { useDialogStore } from './dialog-store';
 
 export function confirm(options: {
 	title: string;

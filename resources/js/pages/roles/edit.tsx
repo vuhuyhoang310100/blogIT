@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { RolePermission, SinglePermission} from '@/types/role_permissions';
+import { RolePermission, SinglePermission } from '@/types/role_permissions';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -25,12 +25,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function EditRoles({
-	permissions, role
+	permissions,
+	role,
 }: {
 	permissions: SinglePermission[];
 	role: RolePermission;
 }) {
-	const { flash } = usePage<{ flash: { message?: string; error?: string } }>().props;
+	const { flash } = usePage<{ flash: { message?: string; error?: string } }>()
+		.props;
 
 	const permissionList = role.permissions.map((perm) => perm.name);
 
@@ -58,7 +60,7 @@ export default function EditRoles({
 			onError: (errors) => {
 				console.error('Update errors:', errors);
 				toast.error('Failed to update role');
-			}
+			},
 		});
 	}
 
@@ -116,14 +118,16 @@ export default function EditRoles({
 							</Label>
 							<div className="my-4">
 								<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-									{permissions.map((permission) =>  (
+									{permissions.map((permission) => (
 										<div
 											key={permission.id}
 											className="flex items-center gap-3"
 										>
 											<Checkbox
 												id={permission.name}
-												checked={data.permissions.includes(permission.name)}
+												checked={data.permissions.includes(
+													permission.name,
+												)}
 												onCheckedChange={(checked) => {
 													if (checked) {
 														setData('permissions', [

@@ -79,7 +79,18 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
-        ]
+        ],
+		"pint": [
+            "./vendor/bin/pint"
+        ],
+		"lint": [
+            "npm run format",
+			"npm run lint"
+        ],
+		"format":[
+			"@pint",
+			"@lint"
+		]
     },
     "extra": {
         "laravel": {

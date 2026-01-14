@@ -119,16 +119,13 @@ export default function CreateUsers({ roles }: { roles: string[] }) {
 															'roles',
 															data.roles.filter(
 																(p) =>
-																	p !==
-																	role,
+																	p !== role,
 															),
 														);
 													}
 												}}
 											/>
-											<Label htmlFor={role}>
-												{role}
-											</Label>
+											<Label htmlFor={role}>{role}</Label>
 										</div>
 									))}
 								</div>

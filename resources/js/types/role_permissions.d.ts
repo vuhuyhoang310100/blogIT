@@ -26,7 +26,6 @@ export interface RolePermission {
 	updated_at: string;
 }
 
-
 export interface Permission extends Pagination {
 	data: SinglePermission[];
 }
