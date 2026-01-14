@@ -4,6 +4,7 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { InputPassword } from '@/components/ui/input-password';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
@@ -60,15 +61,16 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 										</TextLink>
 									)}
 								</div>
-								<Input
+								<InputPassword
 									id="password"
-									type="password"
 									name="password"
 									required
 									tabIndex={2}
 									autoComplete="current-password"
 									placeholder="Password"
+									autoHideWhen={processing}
 								/>
+
 								<InputError message={errors.password} />
 							</div>
 
@@ -77,13 +79,14 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 									id="remember"
 									name="remember"
 									tabIndex={3}
+									className="hover:cursor-pointer"
 								/>
 								<Label htmlFor="remember">Remember me</Label>
 							</div>
 
 							<Button
 								type="submit"
-								className="mt-4 w-full"
+								className="mt-4 w-full hover:cursor-pointer"
 								tabIndex={4}
 								disabled={processing}
 								data-test="login-button"

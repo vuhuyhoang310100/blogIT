@@ -7,6 +7,7 @@ import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { InputPassword } from '@/components/ui/input-password';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
@@ -60,14 +61,14 @@ export default function Register() {
 
 							<div className="grid gap-2">
 								<Label htmlFor="password">Password</Label>
-								<Input
+								<InputPassword
 									id="password"
-									type="password"
+									name="password"
 									required
 									tabIndex={3}
 									autoComplete="new-password"
-									name="password"
 									placeholder="Password"
+									autoHideWhen={processing}
 								/>
 								<InputError message={errors.password} />
 							</div>
@@ -76,14 +77,14 @@ export default function Register() {
 								<Label htmlFor="password_confirmation">
 									Confirm password
 								</Label>
-								<Input
+								<InputPassword
 									id="password_confirmation"
-									type="password"
 									required
-									tabIndex={4}
-									autoComplete="new-password"
 									name="password_confirmation"
+									tabIndex={4}
+									autoComplete="current-password"
 									placeholder="Confirm password"
+									autoHideWhen={processing}
 								/>
 								<InputError
 									message={errors.password_confirmation}
@@ -92,7 +93,7 @@ export default function Register() {
 
 							<Button
 								type="submit"
-								className="mt-2 w-full"
+								className="mt-2 w-full hover:cursor-pointer"
 								tabIndex={5}
 								data-test="register-user-button"
 							>
