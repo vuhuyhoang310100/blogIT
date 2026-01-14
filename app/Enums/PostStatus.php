@@ -9,4 +9,7 @@ enum PostStatus: string
     case Published = 'published';
 
 	case Test = 'test';
+
+	case Test2 = 'test2';
+
 }
