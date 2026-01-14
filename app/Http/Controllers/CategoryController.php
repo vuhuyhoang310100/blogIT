@@ -44,7 +44,7 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return to_route('categories.index');
+        return to_route('categories.index')->with('message', 'Category created successfully');
     }
 
     /**
@@ -58,7 +58,7 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return to_route('categories.index');
+        return to_route('categories.index')->with('message', 'Category updated successfully');
     }
 
     /**
@@ -74,6 +74,6 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 
-        return to_route('categories.index');
+        return to_route('categories.index')->with('message', 'Category deleted successfully');
     }
 }
