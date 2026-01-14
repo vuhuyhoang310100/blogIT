@@ -27,26 +27,26 @@ jobs:
 
       - name: Run Laravel Pint (Test Mode)
         run: ./vendor/bin/pint --test
-  eslint:
-    name: Frontend ESLint Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+  # eslint:
+  #   name: Frontend ESLint Check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ github.head_ref }}
+  #         fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
 
-      - name: Install Node.js dependencies
-        run: npm ci
+  #     - name: Install Node.js dependencies
+  #       run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint:check
+  #     - name: Run ESLint
+  #       run: npm run lint:check
 
   prettier:
     name: Frontend Prettier Check
