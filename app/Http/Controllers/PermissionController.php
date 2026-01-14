@@ -21,6 +21,7 @@ class PermissionController extends Controller
                 'updated_at' => Carbon::parse($permission->updated_at)->format('Y-m-d H:i:s'),
             ];
         });
+
         return Inertia::render('permissions/index', [
             'permissions' => $permissions,
         ]);
@@ -39,20 +40,20 @@ class PermissionController extends Controller
     }
 
     public function update(Request $request, Permission $permission)
-		{
-				$request->validate([
-						'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
-				]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:permissions,name,'.$permission->id,
+        ]);
 
-				$permission->update(['name' => $request->name, 'description' => $request->description]);
+        $permission->update(['name' => $request->name, 'description' => $request->description]);
 
-				return to_route('permissions.index')->with('message', 'Permission updated successfully.');
-		}
+        return to_route('permissions.index')->with('message', 'Permission updated successfully.');
+    }
 
-		public function destroy(Permission $permission)
-		{
-				$permission->delete();
+    public function destroy(Permission $permission)
+    {
+        $permission->delete();
 
-				return to_route('permissions.index')->with('message', 'Permission deleted successfully.');
-		}
+        return to_route('permissions.index')->with('message', 'Permission deleted successfully.');
+    }
 }
