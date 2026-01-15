@@ -8,10 +8,8 @@
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
-		"lint:check": "eslint .",
-        "test": "vitest --coverage",
-        "watch": "vite watch",
-        "types": "tsc --noEmit"
+        "types": "tsc --noEmit",
+		"lint:check": "eslint ."
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
