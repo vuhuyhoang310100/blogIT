@@ -10,44 +10,102 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 
+/**
+ * Class EventfulRepository
+ *
+ * @template TModel of Model
+ *
+ * @implements BaseRepositoryInterface<TModel>
+ */
 class EventfulRepository implements BaseRepositoryInterface
 {
+    /**
+     * @param  BaseRepositoryInterface<TModel>  $inner
+     */
     public function __construct(
         protected readonly BaseRepositoryInterface $inner,
         protected readonly string $namespace
     ) {}
 
-    /** @return class-string<Model> */
+    /**
+     * {@inheritDoc}
+     */
     public function model(): string
     {
         return $this->inner->model();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function query(): Builder
     {
         return $this->inner->query();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function lockForUpdate(): static
+    {
+        $this->inner->lockForUpdate();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sharedLock(): static
+    {
+        $this->inner->sharedLock();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function find(int|string $id, array $columns = ['*'], array $relations = []): ?Model
     {
         return $this->inner->find($id, $columns, $relations);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findOrFail(int|string $id, array $columns = ['*'], array $relations = []): Model
     {
         return $this->inner->findOrFail($id, $columns, $relations);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function findBy(string $attribute, mixed $value, array $columns = ['*'], array $relations = []): ?Model
+    {
+        return $this->inner->findBy($attribute, $value, $columns, $relations);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getByIds(array $ids, array $columns = ['*'], array $relations = []): Collection
     {
         return $this->inner->getByIds($ids, $columns, $relations);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function paginate(int $perPage = 15, array $columns = ['*'], array $filters = [], array $relations = [], array $orderBy = []): LengthAwarePaginator
     {
         return $this->inner->paginate($perPage, $columns, $filters, $relations, $orderBy);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function create(array $attributes): Model
     {
         $model = $this->inner->create($attributes);
@@ -56,6 +114,9 @@ class EventfulRepository implements BaseRepositoryInterface
         return $model;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update(int|string $id, array $attributes): Model
     {
         $model = $this->inner->update($id, $attributes);
@@ -64,6 +125,9 @@ class EventfulRepository implements BaseRepositoryInterface
         return $model;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete(int|string $id): bool
     {
         $ok = $this->inner->delete($id);
@@ -72,6 +136,9 @@ class EventfulRepository implements BaseRepositoryInterface
         return $ok;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function deleteMany(array $ids): int
     {
         $affected = $this->inner->deleteMany($ids);

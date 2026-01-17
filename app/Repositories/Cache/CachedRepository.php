@@ -3,33 +3,75 @@
 namespace App\Repositories\Cache;
 
 use App\Repositories\Contracts\BaseRepositoryInterface;
+use Closure;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class CachedRepository
+ *
+ * @template TModel of Model
+ *
+ * @implements BaseRepositoryInterface<TModel>
+ */
 class CachedRepository implements BaseRepositoryInterface
 {
+    protected bool $skipCache = false;
+
+    /**
+     * @param  BaseRepositoryInterface<TModel>  $inner
+     */
     public function __construct(
         protected readonly BaseRepositoryInterface $inner,
         protected readonly RepositoryCache $cache,
         protected readonly string $namespace
     ) {}
 
-    /** @return class-string<Model> */
+    /**
+     * {@inheritDoc}
+     */
     public function model(): string
     {
         return $this->inner->model();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function query(): Builder
     {
         return $this->inner->query();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function lockForUpdate(): static
+    {
+        $this->skipCache = true;
+        $this->inner->lockForUpdate();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sharedLock(): static
+    {
+        $this->skipCache = true;
+        $this->inner->sharedLock();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function find(int|string $id, array $columns = ['*'], array $relations = []): ?Model
     {
-        /** @var ?Model */
         return $this->remember(
             'find',
             [$id, $columns, $relations],
@@ -37,14 +79,31 @@ class CachedRepository implements BaseRepositoryInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function findOrFail(int|string $id, array $columns = ['*'], array $relations = []): Model
     {
         return $this->inner->findOrFail($id, $columns, $relations);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function findBy(string $attribute, mixed $value, array $columns = ['*'], array $relations = []): ?Model
+    {
+        return $this->remember(
+            'findBy',
+            [$attribute, $value, $columns, $relations],
+            fn (): ?Model => $this->inner->findBy($attribute, $value, $columns, $relations)
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getByIds(array $ids, array $columns = ['*'], array $relations = []): Collection
     {
-        /** @var Collection */
         return $this->remember(
             'getByIds',
             [$ids, $columns, $relations],
@@ -52,11 +111,13 @@ class CachedRepository implements BaseRepositoryInterface
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function paginate(int $perPage = 15, array $columns = ['*'], array $filters = [], array $relations = [], array $orderBy = []): LengthAwarePaginator
     {
         $page = (int) request()->integer('page', 1);
 
-        /** @var LengthAwarePaginator */
         return $this->remember(
             'paginate',
             [$perPage, $columns, $filters, $relations, $orderBy, $page],
@@ -64,36 +125,52 @@ class CachedRepository implements BaseRepositoryInterface
         );
     }
 
-    // Writes: không cache, đi thẳng
+    /**
+     * {@inheritDoc}
+     */
     public function create(array $attributes): Model
     {
         return $this->inner->create($attributes);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function update(int|string $id, array $attributes): Model
     {
         return $this->inner->update($id, $attributes);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function delete(int|string $id): bool
     {
         return $this->inner->delete($id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function deleteMany(array $ids): int
     {
         return $this->inner->deleteMany($ids);
     }
 
     /**
+     * Execute a callback and cache the result or return from cache.
+     *
      * @template T
      *
-     * @param  \Closure():T  $callback
+     * @param  array<mixed>  $parts
+     * @param  Closure(): T  $callback
      * @return T
      */
-    private function remember(string $method, array $parts, \Closure $callback): mixed
+    private function remember(string $method, array $parts, Closure $callback): mixed
     {
-        if (! $this->cache->enabled()) {
+        if ($this->skipCache || ! $this->cache->enabled()) {
+            $this->skipCache = false;
+
             return $callback();
         }
 
