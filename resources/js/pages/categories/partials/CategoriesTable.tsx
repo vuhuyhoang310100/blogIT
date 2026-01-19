@@ -52,7 +52,7 @@ export default function CategoriesTable({
 
 		if (ok) {
 			router.delete(`/categories/${id}`, {
-				onSuccess: () => { },
+				onSuccess: () => {},
 				onError: () => console.error('Delete failed'),
 			});
 		}
@@ -96,10 +96,15 @@ export default function CategoriesTable({
 					</TableCell>
 					<TableCell>
 						{(() => {
-							const status = cat.is_active ? ActiveStatus.ACTIVE : ActiveStatus.INACTIVE;
+							const status = cat.is_active
+								? ActiveStatus.ACTIVE
+								: ActiveStatus.INACTIVE;
 							const config = statusMap[status];
 							return (
-								<Badge variant={config.variant} className={config.className}>
+								<Badge
+									variant={config.variant}
+									className={config.className}
+								>
 									{config.label}
 								</Badge>
 							);
@@ -135,7 +140,7 @@ export default function CategoriesTable({
 
 	return (
 		<Table className="table-striped table">
-			<TableHeader className='bg-gray-50'>
+			<TableHeader className="bg-gray-50">
 				<TableRow>
 					{/* <TableHead>Id</TableHead> */}
 					<TableHead>Name</TableHead>

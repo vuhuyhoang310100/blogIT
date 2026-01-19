@@ -137,34 +137,20 @@ export default function Users({ users }: { users: User }) {
 								</TableBody>
 							</Table>
 						</div>
-						<Table className='table-striped table'>
-							<TableHeader className='bg-gray-50'>
+						<Table className="table-striped table">
+							<TableHeader className="bg-gray-50">
 								<TableRow>
-									<TableHead>
-										ID
-									</TableHead>
-									<TableHead>
-										Name
-									</TableHead>
-									<TableHead>
-										Email
-									</TableHead>
-									<TableHead>
-										Roles
-									</TableHead>
-									<TableHead>
-										Created At
-									</TableHead>
-									<TableHead>
-										Actions
-									</TableHead>
+									<TableHead>ID</TableHead>
+									<TableHead>Name</TableHead>
+									<TableHead>Email</TableHead>
+									<TableHead>Roles</TableHead>
+									<TableHead>Created At</TableHead>
+									<TableHead>Actions</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								{users.data.map((user, index) => (
-									<TableRow
-										key={index + 1}
-									>
+									<TableRow key={index + 1}>
 										<TableCell>{user.id}</TableCell>
 										<TableCell>{user.name}</TableCell>
 										<TableCell>{user.email}</TableCell>
@@ -197,7 +183,7 @@ export default function Users({ users }: { users: User }) {
 												<Button
 													variant="outline"
 													size="sm"
-													className="text-red-600 hover:bg-red-50 ms-2"
+													className="ms-2 text-red-600 hover:bg-red-50"
 													onClick={() =>
 														deleteUser(user.id)
 													}

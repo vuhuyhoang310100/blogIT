@@ -133,34 +133,20 @@ export default function Permissions({
 					</CardHeader>
 					<hr />
 					<CardContent>
-						<Table className='table-striped table'>
-							<TableHeader className='bg-gray-50'>
+						<Table className="table-striped table">
+							<TableHeader className="bg-gray-50">
 								<TableRow>
-									<TableHead>
-										ID
-									</TableHead>
-									<TableHead>
-										Name
-									</TableHead>
-									<TableHead>
-										Description
-									</TableHead>
-									<TableHead>
-										Created at
-									</TableHead>
-									<TableHead>
-										Updated at
-									</TableHead>
-									<TableHead>
-										Actions
-									</TableHead>
+									<TableHead>ID</TableHead>
+									<TableHead>Name</TableHead>
+									<TableHead>Description</TableHead>
+									<TableHead>Created at</TableHead>
+									<TableHead>Updated at</TableHead>
+									<TableHead>Actions</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								{permissions.data.map((permission, index) => (
-									<TableRow
-										key={index + 1}
-									>
+									<TableRow key={index + 1}>
 										<TableCell>{permission.id}</TableCell>
 										<TableCell>{permission.name}</TableCell>
 										<TableCell>
@@ -188,7 +174,7 @@ export default function Permissions({
 												<Button
 													variant="outline"
 													size="sm"
-													className="text-red-600 hover:bg-red-50 ms-2"
+													className="ms-2 text-red-600 hover:bg-red-50"
 													onClick={() => {
 														deletePermission(
 															permission.id,

@@ -66,31 +66,19 @@ export default function Roles({ roles }: { roles: Role }) {
 					</CardHeader>
 					<hr />
 					<CardContent>
-						<Table className='table-striped table'>
-							<TableHeader className='bg-gray-50'>
+						<Table className="table-striped table">
+							<TableHeader className="bg-gray-50">
 								<TableRow>
-									<TableHead>
-										ID
-									</TableHead>
-									<TableHead>
-										Name
-									</TableHead>
-									<TableHead>
-										Description
-									</TableHead>
-									<TableHead>
-										Permissions
-									</TableHead>
-									<TableHead>
-										Actions
-									</TableHead>
+									<TableHead>ID</TableHead>
+									<TableHead>Name</TableHead>
+									<TableHead>Description</TableHead>
+									<TableHead>Permissions</TableHead>
+									<TableHead>Actions</TableHead>
 								</TableRow>
 							</TableHeader>
 							<TableBody>
 								{roles.data.map((role, index) => (
-									<TableRow
-										key={index + 1}
-									>
+									<TableRow key={index + 1}>
 										<TableCell>{role.id}</TableCell>
 										<TableCell>{role.name}</TableCell>
 										<TableCell>
@@ -126,7 +114,7 @@ export default function Roles({ roles }: { roles: Role }) {
 												<Button
 													variant="outline"
 													size="sm"
-													className="text-red-600 hover:bg-red-50 ms-2"
+													className="ms-2 text-red-600 hover:bg-red-50"
 													onClick={() =>
 														deleteRole(role.id)
 													}

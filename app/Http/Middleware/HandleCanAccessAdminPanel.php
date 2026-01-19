@@ -15,7 +15,7 @@ class HandleCanAccessAdminPanel
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             return to_route('login');
         }
 

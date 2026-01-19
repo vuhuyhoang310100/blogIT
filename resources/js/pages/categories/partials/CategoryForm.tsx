@@ -10,8 +10,8 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { CategoryFormProps } from '@/types/category';
 import { ActiveStatus, statusMap } from '@/enums/ActiveEnum';
+import { CategoryFormProps } from '@/types/category';
 import { CornerDownRight } from 'lucide-react';
 
 export default function CategoryForm({
@@ -43,8 +43,8 @@ export default function CategoryForm({
 							{data.parent_id === null
 								? '📂 Create Root Category'
 								: flatCategories.find(
-									(c) => c.id === data.parent_id,
-								)?.name}
+										(c) => c.id === data.parent_id,
+									)?.name}
 						</SelectValue>{' '}
 					</SelectTrigger>
 
