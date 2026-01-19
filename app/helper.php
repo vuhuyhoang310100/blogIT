@@ -2,7 +2,7 @@
 
 use Spatie\Permission\Models\Permission;
 
-if (!function_exists('cachedAccessControl')) {
+if (! function_exists('cachedAccessControl')) {
     function cachedAccessControl($user): array
     {
         if ($user->hasRole('Super Admin')) {
@@ -10,6 +10,7 @@ if (!function_exists('cachedAccessControl')) {
                 return Permission::query()->pluck('name')->toArray();
             });
         }
+
         return $user->getAllPermissions()->pluck('name')->toArray();
     }
 }

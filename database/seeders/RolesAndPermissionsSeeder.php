@@ -158,5 +158,4 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $adminUser->assignRole($superAdmin);
     }
-
 }

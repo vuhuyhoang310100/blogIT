@@ -6,10 +6,9 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Eloquent strict mode
-        if (!app()->isProduction()) {
+        if (! app()->isProduction()) {
             Model::shouldBeStrict();
         }
 

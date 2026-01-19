@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
 
 class RBACServiceProvider extends ServiceProvider
@@ -31,5 +31,4 @@ class RBACServiceProvider extends ServiceProvider
 
         Permission::deleted($clearPermissionCache);
     }
-
 }
