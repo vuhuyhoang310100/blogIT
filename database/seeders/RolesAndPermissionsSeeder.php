@@ -14,67 +14,139 @@ class RolesAndPermissionsSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
-        // Reset cached roles and permissions
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+public function run(): void
+{
+    app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Define Permissions from web.php
-        $permissions = [
-            'view_permissions',
-            'create_permissions',
-            'edit_permissions',
-            'delete_permissions',
+    $permissions = [
+        // Permission & Role
+        'view_permissions',
+        'create_permissions',
+        'edit_permissions',
+        'delete_permissions',
 
-            'view_roles',
-            'create_roles',
-            'edit_roles',
-            'delete_roles',
+        'view_roles',
+        'create_roles',
+        'edit_roles',
+        'delete_roles',
 
-            'view_users',
-            'create_users',
-            'edit_users',
-            'delete_users',
+        // User
+        'view_users',
+        'create_users',
+        'edit_users',
+        'delete_users',
+        'assign_roles',
 
-            // Category Permissions
-            'view_categories',
-            'create_categories',
-            'edit_categories',
-            'delete_categories',
-        ];
+        // Post
+        'view_posts',
+        'create_posts',
+        'edit_posts',
+        'delete_posts',
 
-        // Create Permissions
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-        }
+        'publish_posts',
+        'unpublish_posts',
+        'approve_posts',
+        'reject_posts',
 
-        // Create Admin Role
-        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+        'view_own_posts',
+        'edit_own_posts',
+        'delete_own_posts',
 
-        // Grant all permissions to Admin role
-        $adminRole->givePermissionTo(Permission::all());
+        // Category
+        'view_categories',
+        'create_categories',
+        'edit_categories',
+        'delete_categories',
 
-        // Create Admin User
-        $adminUser = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            [
-                'name' => 'Admin',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        // Tag
+        'view_tags',
+        'create_tags',
+        'edit_tags',
+        'delete_tags',
 
-        // Assign Admin role to the user
-        $adminUser->assignRole($adminRole);
+        // Comment
+        'view_comments',
+        'delete_comments',
+        'moderate_comments',
 
-        // Create a regular user for testing (if needed, otherwise remove)
-        $user = User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        // Interaction
+        'like_posts',
+        'bookmark_posts',
+
+        // System
+        'view_settings',
+        'edit_settings',
+    ];
+
+    foreach ($permissions as $permission) {
+        Permission::firstOrCreate(['name' => $permission]);
     }
+
+    // Roles
+    $superAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
+    $admin      = Role::firstOrCreate(['name' => 'Admin']);
+    $author     = Role::firstOrCreate(['name' => 'Author']);
+    $subscriber = Role::firstOrCreate(['name' => 'Subscriber']);
+
+    // Assign permissions
+    $superAdmin->givePermissionTo(Permission::all());
+
+    $admin->givePermissionTo([
+        'view_users',
+        'create_users',
+        'edit_users',
+        'delete_users',
+        'assign_roles',
+
+        'view_posts',
+        'create_posts',
+        'edit_posts',
+        'delete_posts',
+        'publish_posts',
+        'unpublish_posts',
+        'approve_posts',
+        'reject_posts',
+
+        'view_categories',
+        'create_categories',
+        'edit_categories',
+        'delete_categories',
+
+        'view_tags',
+        'create_tags',
+        'edit_tags',
+        'delete_tags',
+
+        'view_comments',
+        'delete_comments',
+        'moderate_comments',
+    ]);
+
+    $author->givePermissionTo([
+        'view_posts',
+        'create_posts',
+        'view_own_posts',
+        'edit_own_posts',
+        'delete_own_posts',
+    ]);
+
+    $subscriber->givePermissionTo([
+        'view_posts',
+        'like_posts',
+        'bookmark_posts',
+    ]);
+
+    // Admin user
+    $adminUser = User::firstOrCreate(
+        ['email' => 'admin@example.com'],
+        [
+            'name' => 'Admin',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]
+    );
+
+    $adminUser->assignRole($superAdmin);
+}
+
 }
