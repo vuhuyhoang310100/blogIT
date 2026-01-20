@@ -61,8 +61,8 @@ class Category extends Model
         return $this->children()->with('childrenRecursive');
     }
 
-	public function posts(): HasMany
-	{
-		return $this->hasMany(Post::class);
-	}
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
 }

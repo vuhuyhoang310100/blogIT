@@ -66,6 +66,6 @@ export type PostFilters = {
 	tag_id: number | null;
 	trashed: TrashedValue | null;
 
-	published_from?: string | null;
-	published_to?: string | null;
+	published_at_from?: string | null;
+	published_at_to?: string | null;
 };

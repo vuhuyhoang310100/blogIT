@@ -9,16 +9,16 @@ use DomainException;
 
 class PublishPostAction
 {
-	public function __construct(private PostRepositoryInterface $postRepository) {}
+    public function __construct(private PostRepositoryInterface $postRepository) {}
 
-	public function handle(Post $post): Post
-	{
-		$post = $this->postRepository->findForUpdate($post->id);
+    public function handle(Post $post): Post
+    {
+        $post = $this->postRepository->findForUpdate($post->id);
 
-		if ($post->status === PostStatus::Published->value) {
-			throw new DomainException('Already published');
-		}
+        if ($post->status === PostStatus::Published->value) {
+            throw new DomainException('Already published');
+        }
 
-		return $this->postRepository->publish($post);
-	}
+        return $this->postRepository->publish($post);
+    }
 }

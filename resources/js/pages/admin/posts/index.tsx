@@ -11,6 +11,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
 import {
 	Card,
 	CardContent,
@@ -19,7 +20,6 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -42,6 +42,7 @@ import PostController from '@/actions/App/Http/Controllers/Admin/PostController'
 import PostDuplicateController from '@/actions/App/Http/Controllers/Admin/PostDuplicateController';
 import { BulkActionsDropdown } from '@/components/bulk-actions-dropdown';
 import { PerPageSelect } from '@/components/per-page-select';
+import { cn } from '@/lib/utils';
 import { BreadcrumbItem } from '@/types';
 import { PaginatedResponse } from '@/types/pagination';
 import { Post, PostFilters } from '@/types/post';
@@ -50,8 +51,8 @@ import { format } from 'date-fns';
 import {
 	Copy,
 	Edit,
+	EllipsisVertical,
 	FileSearch,
-	MoreHorizontal,
 	Plus,
 	RefreshCcw,
 	Trash2,
@@ -60,7 +61,6 @@ import {
 import { useEffect, useState } from 'react';
 import { bulkRoutes } from './partials/bulk-routes';
 import { PostFilterAdvance } from './partials/filters';
-import { cn } from '@/lib/utils';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -191,13 +191,13 @@ export default function PostIndex({
 
 	const hasFilters = Boolean(
 		filters.q ||
-		filters.status ||
-		filters.category_id ||
-		filters.user_id ||
-		filters.tag_id ||
-		filters.trashed ||
-		filters.published_from ||
-		filters.published_to,
+			filters.status ||
+			filters.category_id ||
+			filters.user_id ||
+			filters.tag_id ||
+			filters.trashed ||
+			filters.published_at_from ||
+			filters.published_at_to,
 	);
 
 	const onReset = () => {
@@ -244,9 +244,9 @@ export default function PostIndex({
 									actions={bulkActions}
 								/>
 								<div className="flex items-center text-sm text-muted-foreground">
-							{selectedIds.length} of {posts.total} row(s)
-							selected.
-						</div>
+									{selectedIds.length} of {posts.total} row(s)
+									selected.
+								</div>
 							</div>
 
 							{/* RIGHT: SEARCH / FILTER */}
@@ -262,7 +262,7 @@ export default function PostIndex({
 										variant="outline"
 										size="sm"
 										onClick={onReset}
-										className="h-9 bg-secondary hover:text-destructive hover:bg-secondary/80 hover:cursor-pointer"
+										className="h-9 bg-secondary hover:cursor-pointer hover:bg-secondary/80 hover:text-destructive"
 									>
 										<X className="h-4 w-4" />
 										Clear Filters
@@ -295,14 +295,23 @@ export default function PostIndex({
 										<TableHead className="w-[50px]">
 											ID
 										</TableHead>
-										<TableHead> Title </TableHead>
-										<TableHead> Tag </TableHead>
+										<TableHead> Post </TableHead>
+										{/* <TableHead> Tag </TableHead> */}
 										<TableHead> Author </TableHead>
 										<TableHead> Category </TableHead>
 										<TableHead> Status </TableHead>
-										<TableHead className="text-center"> Views </TableHead>
-										<TableHead className="text-center"> Comments </TableHead>
-										<TableHead className="text-center"> Likes </TableHead>
+										<TableHead className="text-center">
+											{' '}
+											Views{' '}
+										</TableHead>
+										<TableHead className="text-center">
+											{' '}
+											Comments{' '}
+										</TableHead>
+										<TableHead className="text-center">
+											{' '}
+											Likes{' '}
+										</TableHead>
 										<TableHead> Published At </TableHead>
 										<TableHead> Created At </TableHead>
 										<TableHead className="w-[70px] pr-6 text-right">
@@ -314,7 +323,7 @@ export default function PostIndex({
 									{posts.data.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={10}
+												colSpan={13}
 												className="h-24 text-center"
 											>
 												<div className="flex flex-col items-center justify-center gap-2 py-10 text-muted-foreground">
@@ -328,7 +337,7 @@ export default function PostIndex({
 									) : (
 										posts.data.map((post: Post) => (
 											<TableRow key={post.id}>
-												<TableCell className="font-medium pl-6">
+												<TableCell className="pl-6 font-medium">
 													{/* <Checkbox className="size-4 hover:cursor-pointer" /> */}
 													<Checkbox
 														checked={
@@ -352,7 +361,7 @@ export default function PostIndex({
 												<TableCell className="font-medium">
 													<div className="flex items-center gap-3">
 														{post.image_url && (
-															<div className="h-10 w-10 shrink-0 overflow-hidden rounded-md border">
+															<div className="h-12 w-12 shrink-0 overflow-hidden rounded-md border">
 																<img
 																	src={
 																		post.image_url
@@ -365,13 +374,80 @@ export default function PostIndex({
 														<div className="max-w-[300px] truncate">
 															{post.title}
 															<br />
-															<small className="text-muted-foreground">
+															{/* <small className="text-muted-foreground">
+																Slug:{' '}
 																{post.slug}
-															</small>
+															</small> */}
+															{/* <br /> */}
+															{/* <small>
+																Category:{' '}
+																{post.category
+																	? post
+																			.category
+																			.name
+																	: '-'}
+															</small> */}
+															{/* <br /> */}
+															{/* <small>
+																Author:{' '}
+																{post.user
+																	? post.user
+																			.name
+																	: '-'}
+															</small> */}
+															<div className="flex flex-wrap gap-1 items-center">
+																<small className='font-bold'>Tags:</small>{' '}
+																{post.tags
+																	.length > 0
+																	? post.tags.map(
+																			(
+																				tag,
+																			) => (
+																				<Badge
+																					key={
+																						tag.id
+																					}
+																					variant="secondary"
+																					className="border-sky-200 bg-sky-50 text-xs text-sky-700 hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-900/20 dark:text-sky-400"
+																				>
+																					<small>
+																						{
+																							tag.name
+																						}
+																					</small>
+																				</Badge>
+																			),
+																		)
+																	: '-'}
+															</div>
 														</div>
 													</div>
+													{/* <div className="flex flex-wrap gap-1">
+																{post.tags
+																	.length > 0
+																	? post.tags.map(
+																			(
+																				tag,
+																			) => (
+																				<Badge
+																					key={
+																						tag.id
+																					}
+																					variant="secondary"
+																					className="border-sky-200 bg-sky-50 text-xs text-sky-700 hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-900/20 dark:text-sky-400"
+																				>
+																					<small>
+																						{
+																							tag.name
+																						}
+																					</small>
+																				</Badge>
+																			),
+																		)
+																	: '-'}
+															</div> */}
 												</TableCell>
-												<TableCell>
+												{/* <TableCell>
 													<div className="flex flex-wrap gap-1">
 														{post.tags.length > 0
 															? post.tags.map(
@@ -391,7 +467,7 @@ export default function PostIndex({
 																)
 															: '-'}
 													</div>
-												</TableCell>
+												</TableCell> */}
 												<TableCell>
 													{post.user.name}
 												</TableCell>
@@ -444,7 +520,7 @@ export default function PostIndex({
 																size="icon"
 																className="size-8 hover:cursor-pointer"
 															>
-																<MoreHorizontal className="size-4" />
+																<EllipsisVertical className="size-4" />
 																<span className="sr-only">
 																	Open menu
 																</span>
@@ -511,18 +587,17 @@ export default function PostIndex({
 							selected.
 						</div> */}
 
-							<div className="flex items-center gap-2">
-								<span className="text-sm font-medium">
-									Rows per page
-								</span>
-								<PerPageSelect
-									value={filters.per_page ?? posts.per_page}
-									filters={filters}
-									url={PostController.index.url()}
-								/>
-							</div>
+						<div className="flex items-center gap-2">
+							<span className="text-sm font-medium">
+								Rows per page
+							</span>
+							<PerPageSelect
+								value={filters.per_page ?? posts.per_page}
+								filters={filters}
+								url={PostController.index.url()}
+							/>
+						</div>
 						<div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
-
 							<div className="flex items-center text-sm font-medium">
 								Page {posts.current_page} of {posts.last_page}
 							</div>

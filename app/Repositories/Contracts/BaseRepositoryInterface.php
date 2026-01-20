@@ -56,7 +56,6 @@ interface BaseRepositoryInterface
     /**
      * Paginate the models.
      *
-	 * @param  int  $perPage
      * @param  array<int, string>  $columns
      * @param  array<string, mixed>  $filters
      * @param  array<int, string>  $relations

@@ -13,11 +13,12 @@ class UnpublishPostAction
 
     public function handle(Post $post): Post
     {
-		$post = $this->postRepository->findForUpdate($post->id);
+        $post = $this->postRepository->findForUpdate($post->id);
 
-		if ($post->status === PostStatus::Published->value) {
-			throw new DomainException('Already Unpublished');
-		}
+        if ($post->status === PostStatus::Published->value) {
+            throw new DomainException('Already Unpublished');
+        }
+
         return $this->postRepository->unpublish($post);
     }
 }

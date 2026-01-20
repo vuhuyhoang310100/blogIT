@@ -39,8 +39,8 @@ class IndexPostRequest extends FormRequest
             'tag_id' => ['nullable', 'integer', 'exists:tags,id'],
             'trashed' => ['nullable',  Rule::enum(TrashedFilter::class)],
             'page' => ['nullable', 'integer', 'min:1'],
-            'published_from' => ['nullable', 'date'],
-            'published_to' => ['nullable', 'date', 'after_or_equal:published_from'],
+            'published_at_from' => ['nullable', 'date'],
+            'published_at_to' => ['nullable', 'date', 'after_or_equal:published_at_from'],
         ];
     }
 
@@ -60,8 +60,8 @@ class IndexPostRequest extends FormRequest
             'user_id' => $data['user_id'] ?? null,
             'tag_id' => $data['tag_id'] ?? null,
             'trashed' => $data['trashed'] ?? null,
-            'published_at_from' => $data['published_from'] ?? null,
-            'published_at_to' => $data['published_to'] ?? null,
+            'published_at_from' => $data['published_at_from'] ?? null,
+            'published_at_to' => $data['published_at_to'] ?? null,
             'sort' => $data['sort'] ?? null,
             'direction' => $data['direction'] ?? null,
             'per_page' => $data['per_page'] ?? null,

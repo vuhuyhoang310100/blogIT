@@ -13,26 +13,26 @@ export function DateSection({
 	filters: PostFilters;
 	apply: (v: Partial<PostFilters>) => void;
 }) {
-	const [from, setFrom] = useState<string | ''>(filters.published_from ?? '');
-	const [to, setTo] = useState<string | ''>(filters.published_to ?? '');
+	const [from, setFrom] = useState<string | ''>(filters.published_at_from ?? '');
+	const [to, setTo] = useState<string | ''>(filters.published_at_to ?? '');
 
 	// sync khi filter từ server đổi (Back / Reset all)
 	useEffect(() => {
-		setFrom(filters.published_from ?? '');
-		setTo(filters.published_to ?? '');
-	}, [filters.published_from, filters.published_to]);
+		setFrom(filters.published_at_from ?? '');
+		setTo(filters.published_at_to ?? '');
+	}, [filters.published_at_from, filters.published_at_to]);
 
 	const hasValue = Boolean(from || to);
 	const hasChanged =
-		from !== (filters.published_from ?? '') ||
-		to !== (filters.published_to ?? '');
+		from !== (filters.published_at_from ?? '') ||
+		to !== (filters.published_at_to ?? '');
 
 	const canApply = Boolean(hasChanged && (from || to));
 
 	const onApply = () => {
 		apply({
-			published_from: from || null,
-			published_to: to || null,
+			published_at_from: from || null,
+			published_at_to: to || null,
 		});
 	};
 
@@ -40,10 +40,10 @@ export function DateSection({
 		setFrom('');
 		setTo('');
 
-		if (filters.published_from || filters.published_to) {
+		if (filters.published_at_from || filters.published_at_to) {
 			apply({
-				published_from: null,
-				published_to: null,
+				published_at_from: null,
+				published_at_to: null,
 			});
 		}
 	};

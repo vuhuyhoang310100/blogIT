@@ -1,8 +1,8 @@
 import PostController from '@/actions/App/Http/Controllers/Admin/PostController';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { PostForm, PostFormDataType } from './partials/post-form';
+import { Head } from '@inertiajs/react';
+import { PostForm } from './partials/post-form';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -21,10 +21,6 @@ interface CreatePostProps {
 }
 
 export default function CreatePost({ categories, tags }: CreatePostProps) {
-	const handleSubmit = (data: PostFormDataType) => {
-		router.post(PostController.store.url(), data as Record<string, any>);
-	};
-
 	return (
 		<AppLayout breadcrumbs={breadcrumbs}>
 			<div className="mx-auto w-full p-4">
@@ -32,7 +28,7 @@ export default function CreatePost({ categories, tags }: CreatePostProps) {
 				<PostForm
 					categories={categories}
 					tags={tags}
-					onSubmit={handleSubmit}
+					action={PostController.store.url()}
 					submitLabel="Create Post"
 				/>
 			</div>
