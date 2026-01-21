@@ -18,6 +18,7 @@ export default function CreateCategoryDialog({
 		name: '',
 		description: '',
 		parent_id: null,
+		is_active: true
 	});
 	const { post, processing, reset } = form;
 

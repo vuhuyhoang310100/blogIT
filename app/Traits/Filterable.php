@@ -13,7 +13,7 @@ trait Filterable
      */
     public function scopeSearch(Builder $query, ?string $searchQuery): Builder
     {
-        if (! $searchQuery || empty($this->searchable ?? [])) {
+        if (!$searchQuery || empty($this->searchable ?? [])) {
             return $query;
         }
 
@@ -38,10 +38,15 @@ trait Filterable
 
             // relation filter: user.profile.status
             if (str_contains($key, '.')) {
-                [$relation, $column] = explode('.', $key, 2);
+                $relation = substr($key, 0, strrpos($key, '.'));
+                $column = substr($key, strrpos($key, '.') + 1);
 
                 $query->whereHas($relation, function ($q) use ($column, $value) {
-                    $q->where($column, $value);
+                    if (is_array($value)) {
+                        $q->where($column, $value['operator'] ?? '=', $value['value']);
+                    } else {
+                        $q->where($column, $value);
+                    }
                 });
 
                 continue;
