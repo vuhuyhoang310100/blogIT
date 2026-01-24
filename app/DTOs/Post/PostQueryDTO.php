@@ -2,9 +2,7 @@
 
 namespace App\DTOs\Post;
 
-use App\DTOs\BaseDTO;
-
-final class PostQueryDTO extends BaseDTO
+final class PostQueryDTO
 {
     public function __construct(
         public readonly array $filters = [],
@@ -23,5 +21,10 @@ final class PostQueryDTO extends BaseDTO
             perPage: (int) ($data['per_page'] ?? 15),
             page: (int) ($data['page'] ?? 1),
         );
+    }
+
+    public function toArray(): array
+    {
+        return get_object_vars($this);
     }
 }
