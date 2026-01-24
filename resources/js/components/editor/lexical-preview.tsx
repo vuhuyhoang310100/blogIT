@@ -25,6 +25,7 @@ export default function LexicalPreview({
 		}
 	} catch (e) {
 		isLexicalJson = false;
+		console.error(e);
 	}
 
 	if (!isLexicalJson) {
