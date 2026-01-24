@@ -15,8 +15,8 @@ class UnpublishPostAction
     {
         $post = $this->postRepository->findForUpdate($post->id);
 
-        if ($post->status === PostStatus::Published->value) {
-            throw new DomainException('Already Unpublished');
+        if ($post->status !== PostStatus::Published->value) {
+            throw new DomainException('Post is not published');
         }
 
         return $this->postRepository->unpublish($post);
