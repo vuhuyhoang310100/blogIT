@@ -64,7 +64,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->load('user', 'tags');
+        $post->load('user', 'tags', 'category');
 
         return Inertia::render('admin/posts/show', [
             'post' => $post,
