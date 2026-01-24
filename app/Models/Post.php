@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PostStatus;
 use App\Traits\Filterable;
 use App\Traits\HasSlug;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -104,5 +105,15 @@ class Post extends Model
     public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    /**
+     * Filter posts by tag ID.
+     */
+    public function filterTagId(Builder $query, int|string $value): void
+    {
+        $query->whereHas('tags', function (Builder $q) use ($value) {
+            $q->where('tags.id', $value);
+        });
     }
 }
