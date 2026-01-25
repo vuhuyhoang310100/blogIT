@@ -657,10 +657,15 @@ export default function PostIndex({
 					</CardContent>
 
 					<CardFooter className="flex flex-col items-center justify-between gap-4 border-t px-6 py-4 md:flex-row">
-						<div className="flex items-center text-sm font-medium">
-							Page {posts.current_page} of {posts.last_page}
+						<div className="flex items-center text-sm text-muted-foreground">
+							Showing {posts.from} to {posts.to} of {posts.total}{' '}
+							entries
 						</div>
 						<div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
+							<div className="flex items-center text-sm text-muted-foreground">
+								Page {posts.current_page} of {posts.last_page}
+							</div>
+
 							<TablePaginationLinks
 								links={posts.links}
 								preserveState
