@@ -1,3 +1,4 @@
+import RoleController from '@/actions/App/Http/Controllers/RoleController';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { RolePermission, SinglePermission } from '@/types/role_permissions';
+import { RolePermission, SinglePermission, type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
@@ -20,7 +20,7 @@ import { toast } from 'sonner';
 const breadcrumbs: BreadcrumbItem[] = [
 	{
 		title: 'Edit Roles',
-		href: '/roles',
+		href: RoleController.index.url(),
 	},
 ];
 
@@ -53,7 +53,7 @@ export default function EditRoles({
 
 	function submit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		put(`/roles/${role.id}`, {
+		put(RoleController.update.url({ role: role.id }), {
 			onSuccess: () => {
 				toast.success('Role updated successfully');
 			},
@@ -72,7 +72,7 @@ export default function EditRoles({
 					<CardHeader className="flex items-center justify-between">
 						<CardTitle>Edit Role</CardTitle>
 						<CardAction>
-							<Link href={'/roles'}>
+							<Link href={RoleController.index.url()}>
 								<Button variant="default">Go back</Button>
 							</Link>
 						</CardAction>
