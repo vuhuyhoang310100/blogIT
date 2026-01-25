@@ -3,9 +3,9 @@
 namespace App\Actions\Post;
 
 use App\Enums\PostStatus;
+use App\Exceptions\PostException;
 use App\Models\Post;
 use App\Repositories\Contracts\PostRepositoryInterface;
-use DomainException;
 
 class UnpublishPostAction
 {
@@ -15,8 +15,8 @@ class UnpublishPostAction
     {
         $post = $this->postRepository->findForUpdate($post->id);
 
-        if ($post->status !== PostStatus::Published->value) {
-            throw new DomainException('Post is not published');
+        if ($post->status !== PostStatus::Published) {
+            throw new PostException('Post is not published');
         }
 
         return $this->postRepository->unpublish($post);

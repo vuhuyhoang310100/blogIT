@@ -41,19 +41,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->map(PostException::class, function ($e) {
-            // Auto detect field error
-            $message = $e->getMessage();
-
-            // Message contains slug
-            if (str_contains(strtolower($message), 'slug')) {
-                throw ValidationException::withMessages([
-                    'slug' => $message,
-                ]);
-            }
-
-            // Fallback: another errors
             throw ValidationException::withMessages([
-                'error' => $message,
+                'error' => $e->getMessage(),
             ]);
         });
     })->create();
