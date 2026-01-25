@@ -20,8 +20,16 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import {
+	DEBOUNCE_DELAY,
+	POST_STATUS_DRAFT,
+	POST_STATUS_PENDING,
+	POST_STATUS_PUBLISHED,
+	SEO_DESCRIPTION_MAX_LENGTH,
+	SEO_TITLE_MAX_LENGTH,
+} from '@/constants';
 import { cn } from '@/lib/utils';
-import { Post } from '@/types/post';
+import { Post } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { SerializedEditorState } from 'lexical';
 import {
@@ -46,7 +54,7 @@ export interface PostFormDataType {
 	meta_title: string;
 	meta_description: string;
 	category_id: number | string;
-	status: string;
+	status: number;
 	published_at: string;
 	tag_ids: number[];
 	_method?: string;
@@ -89,7 +97,7 @@ export function PostForm({
 		meta_title: post?.meta_title ?? '',
 		meta_description: post?.meta_description ?? '',
 		category_id: post?.category?.id ?? '',
-		status: post?.status ?? 'draft',
+		status: post?.status ?? POST_STATUS_DRAFT,
 		published_at: post?.published_at
 			? new Date(post.published_at).toISOString().slice(0, 16)
 			: '',
@@ -118,7 +126,7 @@ export function PostForm({
 					meta_description: currentData.title,
 				});
 			}
-		}, 500);
+		}, DEBOUNCE_DELAY);
 
 		return () => clearTimeout(timer);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -338,9 +346,12 @@ export function PostForm({
 														</span>
 													</Label>
 													<Select
-														value={data.status}
+														value={data.status.toString()}
 														onValueChange={(v) =>
-															setData('status', v)
+															setData(
+																'status',
+																Number(v),
+															)
 														}
 													>
 														<SelectTrigger
@@ -354,19 +365,19 @@ export function PostForm({
 														</SelectTrigger>
 														<SelectContent>
 															<SelectItem
-																value="draft"
+																value={POST_STATUS_DRAFT.toString()}
 																className="text-sm hover:cursor-pointer"
 															>
 																Draft
 															</SelectItem>
 															<SelectItem
-																value="pending"
+																value={POST_STATUS_PENDING.toString()}
 																className="text-sm hover:cursor-pointer"
 															>
 																Pending
 															</SelectItem>
 															<SelectItem
-																value="published"
+																value={POST_STATUS_PUBLISHED.toString()}
 																className="text-sm hover:cursor-pointer"
 															>
 																Published
@@ -540,18 +551,21 @@ export function PostForm({
 												/>{' '}
 												<div className="flex justify-between text-xs text-muted-foreground">
 													<span>
-														Recommended: 50-60 chars
+														Recommended:{' '}
+														{SEO_TITLE_MAX_LENGTH}{' '}
+														chars
 													</span>
 													<span
 														className={cn(
 															data.meta_title
-																.length > 60
+																.length >
+																SEO_TITLE_MAX_LENGTH
 																? 'text-destructive'
 																: '',
 														)}
 													>
 														{data.meta_title.length}
-														/60
+														/{SEO_TITLE_MAX_LENGTH}
 													</span>
 												</div>
 											</div>
@@ -579,14 +593,18 @@ export function PostForm({
 												/>{' '}
 												<div className="flex justify-between text-xs text-muted-foreground">
 													<span>
-														Recommended: 150-160
+														Recommended:{' '}
+														{
+															SEO_DESCRIPTION_MAX_LENGTH
+														}
 														chars
 													</span>
 													<span
 														className={cn(
 															data
 																.meta_description
-																.length > 160
+																.length >
+																SEO_DESCRIPTION_MAX_LENGTH
 																? 'text-destructive'
 																: '',
 														)}
@@ -596,7 +614,10 @@ export function PostForm({
 																.meta_description
 																.length
 														}
-														/160
+														/
+														{
+															SEO_DESCRIPTION_MAX_LENGTH
+														}
 													</span>
 												</div>
 											</div>

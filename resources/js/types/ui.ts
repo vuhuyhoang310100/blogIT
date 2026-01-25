@@ -1,3 +1,26 @@
+import { Input } from '@/components/ui/input';
+import { ComponentProps } from 'react';
+import { Auth } from './auth';
+
+export interface BreadcrumbItem {
+	title: string;
+	href: string;
+}
+
+export interface SharedData {
+	name: string;
+	quote: { message: string; author: string };
+	auth: Auth;
+	sidebarOpen: boolean;
+	flash: {
+		message?: string;
+		error?: string;
+		success?: string;
+		[key: string]: string | undefined;
+	};
+	[key: string]: unknown;
+}
+
 export type PasswordInputProps = Omit<ComponentProps<typeof Input>, 'type'> & {
 	/** Custom class for the toggle button */
 	buttonClassName?: string;

@@ -42,11 +42,14 @@ import PostDuplicateController from '@/actions/App/Http/Controllers/Admin/PostDu
 import PostPublishController from '@/actions/App/Http/Controllers/Admin/PostPublishController';
 import { BulkActionsDropdown } from '@/components/bulk-actions-dropdown';
 import { PerPageSelect } from '@/components/per-page-select';
+import {
+	POST_INDEX_TABLE_COLUMNS,
+	POST_STATUS_PUBLISHED,
+	TRASHED_ONLY,
+} from '@/constants';
 import { usePermissions } from '@/hooks/use-permissions';
 import { cn } from '@/lib/utils';
-import { BreadcrumbItem } from '@/types';
-import { PaginatedResponse } from '@/types/pagination';
-import { Post, PostFilters } from '@/types/post';
+import { BreadcrumbItem, PaginatedResponse, Post, PostFilters } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { format } from 'date-fns';
 import {
@@ -180,7 +183,7 @@ export default function PostIndex({
 	};
 
 	//  Checkbox
-	const isTrashedView = filters?.trashed === 'only';
+	const isTrashedView = filters?.trashed === TRASHED_ONLY;
 	const [selected, setSelected] = useState<Record<number, boolean>>({});
 
 	// Reset selection when data changes (page, sort, filter)
@@ -411,7 +414,9 @@ export default function PostIndex({
 									{posts.data.length === 0 ? (
 										<TableRow>
 											<TableCell
-												colSpan={13}
+												colSpan={
+													POST_INDEX_TABLE_COLUMNS
+												}
 												className="h-24 text-center"
 											>
 												<div className="flex flex-col items-center justify-center gap-2 py-10 text-muted-foreground">
@@ -540,7 +545,7 @@ export default function PostIndex({
 																	</DropdownMenuItem>
 
 																	{post.status !==
-																		'published' &&
+																		POST_STATUS_PUBLISHED &&
 																		can(
 																			'publish_posts',
 																		) && (
@@ -558,7 +563,7 @@ export default function PostIndex({
 																		)}
 
 																	{post.status ===
-																		'published' &&
+																		POST_STATUS_PUBLISHED &&
 																		can(
 																			'unpublish_posts',
 																		) && (
@@ -749,7 +754,7 @@ export default function PostIndex({
 									'hover:cursor-pointer',
 									bulkIntent === 'restore'
 										? 'bg-primary hover:bg-primary/90'
-										: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+										: 'bg-red-500 text-white hover:bg-destructive',
 								)}
 							>
 								{bulkIntent === 'restore'

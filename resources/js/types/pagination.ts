@@ -1,4 +1,4 @@
-export interface Links {
+export interface PaginationLink {
 	url: string | null | undefined;
 	label: string;
 	active: boolean;
@@ -6,23 +6,19 @@ export interface Links {
 
 export interface Pagination {
 	from: number | null;
-	links: Links[];
+	links: PaginationLink[];
 	to: number | null;
 	total: number;
 }
 
-export interface PaginatedResponse<T = unknown | null> {
+export interface PaginatedResponse<T = unknown> {
 	current_page: number;
 	data: T[];
 	first_page_url: string;
 	from: number;
 	last_page: number;
 	last_page_url: string;
-	links: {
-		url: string | null;
-		label: string;
-		active: boolean;
-	}[];
+	links: PaginationLink[];
 	next_page_url: string | null;
 	path: string;
 	per_page: number;

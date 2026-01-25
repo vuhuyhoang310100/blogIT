@@ -1,6 +1,6 @@
 import { FilterSection } from '@/components/filter-section';
 import { Input } from '@/components/ui/input';
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import { CalendarIcon } from 'lucide-react';
 
 export function DateSection({

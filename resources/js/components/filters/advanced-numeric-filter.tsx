@@ -6,7 +6,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import React, { useState } from 'react';
 
 interface AdvancedNumericFilterProps {

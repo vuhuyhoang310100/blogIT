@@ -1,7 +1,6 @@
 import PostController from '@/actions/App/Http/Controllers/Admin/PostController';
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
-import { Post } from '@/types/post';
+import { BreadcrumbItem, Post } from '@/types';
 import { Head } from '@inertiajs/react';
 import { PostForm } from './partials/post-form';
 

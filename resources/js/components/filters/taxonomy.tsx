@@ -1,5 +1,5 @@
 import { SelectFilter } from '@/components/select-filter';
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import { Tag } from 'lucide-react';
 
 const ALL = '__all__';

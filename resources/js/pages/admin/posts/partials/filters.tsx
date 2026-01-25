@@ -11,8 +11,13 @@ import { useEffect, useState } from 'react';
 import PostController from '@/actions/App/Http/Controllers/Admin/PostController';
 import { FilterSection } from '@/components/filter-section';
 import { SearchBox } from '@/components/search-box';
+import {
+	METRIC_FILTER_SUFFIXES,
+	RESERVED_FILTER_KEYS,
+	TRASHED_ONLY,
+} from '@/constants';
 import { cleanFilters } from '@/lib/clean-filters';
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import { ArrowUpDown, ChevronDown, Filter, PlusCircle, X } from 'lucide-react';
 import { AdvancedNumericFilter } from '../../../../components/filters/advanced-numeric-filter';
 import { AuthorSection } from '../../../../components/filters/author';
@@ -112,35 +117,38 @@ export function PostFilterAdvance({
 				return tag ? `Tag: ${tag.name}` : `Tag: ${value}`;
 			}
 			case 'trashed':
-				return `Visibility: ${value === 'only' ? 'Trashed' : 'With Trashed'}`;
+				return `Visibility: ${value === TRASHED_ONLY ? 'Trashed' : 'With Trashed'}`;
 			case 'published_at_from':
 				return `From: ${value}`;
 			case 'published_at_to':
 				return `To: ${value}`;
 		}
 
-		if (key.endsWith('_gt'))
-			return `${key.replace('_count_gt', '')} > ${value}`;
-		if (key.endsWith('_gte'))
-			return `${key.replace('_count_gte', '')} >= ${value}`;
-		if (key.endsWith('_lt'))
-			return `${key.replace('_count_lt', '')} < ${value}`;
-		if (key.endsWith('_lte'))
-			return `${key.replace('_count_lte', '')} <= ${value}`;
+		if (key.endsWith(METRIC_FILTER_SUFFIXES.GT))
+			return `${key.replace(`${METRIC_FILTER_SUFFIXES.COUNT}${METRIC_FILTER_SUFFIXES.GT}`, '')} > ${value}`;
+		if (key.endsWith(METRIC_FILTER_SUFFIXES.GTE))
+			return `${key.replace(`${METRIC_FILTER_SUFFIXES.COUNT}${METRIC_FILTER_SUFFIXES.GTE}`, '')} >= ${value}`;
+		if (key.endsWith(METRIC_FILTER_SUFFIXES.LT))
+			return `${key.replace(`${METRIC_FILTER_SUFFIXES.COUNT}${METRIC_FILTER_SUFFIXES.LT}`, '')} < ${value}`;
+		if (key.endsWith(METRIC_FILTER_SUFFIXES.LTE))
+			return `${key.replace(`${METRIC_FILTER_SUFFIXES.COUNT}${METRIC_FILTER_SUFFIXES.LTE}`, '')} <= ${value}`;
 
 		const isExactMetric = [
 			'views_count',
 			'comments_count',
 			'likes_count',
 		].includes(key);
-		if (isExactMetric) return `${key.replace('_count', '')} = ${value}`;
+		if (isExactMetric)
+			return `${key.replace(METRIC_FILTER_SUFFIXES.COUNT, '')} = ${value}`;
 
 		return null;
 	};
 
 	const activeFilters = Object.entries(filters).filter(([key, value]) => {
-		const reserved = ['q', 'sort', 'direction', 'per_page', 'page'];
-		return !reserved.includes(key) && getFilterLabel(key, value) !== null;
+		return (
+			!RESERVED_FILTER_KEYS.includes(key) &&
+			getFilterLabel(key, value) !== null
+		);
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	}) as [string, any][];
 

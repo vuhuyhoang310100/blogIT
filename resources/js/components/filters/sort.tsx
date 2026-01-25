@@ -1,4 +1,4 @@
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import {
 	Select,
 	SelectContent,

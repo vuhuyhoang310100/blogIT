@@ -26,11 +26,15 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
+import {
+	SEARCH_DEBOUNCE_DELAY,
+	USER_STATUS_ACTIVE,
+	USER_STATUS_INACTIVE,
+} from '@/constants';
 import { usePermissions } from '@/hooks/use-permissions';
 import AppLayout from '@/layouts/app-layout';
+import type { PageProps, UserIndexResponse } from '@/types';
 import { type BreadcrumbItem } from '@/types';
-import type { PageProps } from '@/types/page';
-import { User } from '@/types/user';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -48,7 +52,7 @@ function deleteUser(id: number) {
 	}
 }
 
-export default function Users({ users }: { users: User }) {
+export default function Users({ users }: { users: UserIndexResponse }) {
 	const { flash } = usePage<{ flash: { message?: string; error: string } }>()
 		.props;
 
@@ -74,7 +78,7 @@ export default function Users({ users }: { users: User }) {
 					replace: true,
 				},
 			);
-		}, 400);
+		}, SEARCH_DEBOUNCE_DELAY);
 
 		return () => clearTimeout(timeout);
 	}, [search]);
@@ -123,10 +127,18 @@ export default function Users({ users }: { users: User }) {
 												</SelectTrigger>
 												<SelectContent>
 													<SelectGroup>
-														<SelectItem value="active">
+														<SelectItem
+															value={
+																USER_STATUS_ACTIVE
+															}
+														>
 															Active
 														</SelectItem>
-														<SelectItem value="inactive">
+														<SelectItem
+															value={
+																USER_STATUS_INACTIVE
+															}
+														>
 															Inactive
 														</SelectItem>
 													</SelectGroup>

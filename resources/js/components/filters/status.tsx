@@ -1,7 +1,13 @@
 import { SelectFilter } from '@/components/select-filter';
-import { POST_STATUSES, TRASHED_OPTIONS } from '@/constants/enums';
+import {
+	POST_STATUS_DRAFT,
+	POST_STATUS_PENDING,
+	POST_STATUS_PUBLISHED,
+	POST_STATUSES,
+	TRASHED_OPTIONS,
+} from '@/constants';
 import { enumOrNull, isEnumValue } from '@/lib/enum';
-import { PostFilters } from '@/types/post';
+import { PostFilters } from '@/types';
 import { Activity, Eye } from 'lucide-react';
 
 const ALL = '__all__';
@@ -17,22 +23,23 @@ export function StatusFilter({
 		<SelectFilter
 			title="Status"
 			icon={<Activity className="size-4 text-primary" />}
-			value={filters.status ?? ALL}
+			value={filters.status?.toString() ?? ALL}
 			onValueChange={(v) => {
 				if (v === ALL) {
 					apply({ status: null });
 					return;
 				}
 
-				if (isEnumValue(v, POST_STATUSES)) {
-					apply({ status: v });
+				const numValue = Number(v);
+				if (isEnumValue(numValue, POST_STATUSES)) {
+					apply({ status: numValue });
 				}
 			}}
 			options={[
 				{ label: 'All Status', value: ALL },
-				{ label: 'Draft', value: 'draft' },
-				{ label: 'Pending', value: 'pending' },
-				{ label: 'Published', value: 'published' },
+				{ label: 'Draft', value: POST_STATUS_DRAFT.toString() },
+				{ label: 'Pending', value: POST_STATUS_PENDING.toString() },
+				{ label: 'Published', value: POST_STATUS_PUBLISHED.toString() },
 			]}
 			placeholder="All status"
 		/>

@@ -1,11 +1,6 @@
 import { Button } from '@/components/ui/button';
+import { PaginationLink } from '@/types';
 import { Link } from '@inertiajs/react';
-
-export type PaginationLink = {
-	url: string | null;
-	label: string;
-	active: boolean;
-};
 
 type Props = {
 	links?: PaginationLink[];
