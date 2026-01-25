@@ -26,13 +26,9 @@ class TagRepository
 	 */
 	public function getAll(TagFilterDTO $dto): LengthAwarePaginator
 	{
-		// $filters = [
-		// 	'slug' => $dto->tag,
-		// ];
-
 		return $this->model
 			->search($dto->search)
-			// ->filter($filters)
+			->filter($dto->filters)
 			->orderBy($dto->sort)
 			->paginate($dto->perPage);
 	}
@@ -41,7 +37,7 @@ class TagRepository
 	/**
 	 * Find Tag by ID
 	 */
-	public function find(int $id): ?Tags
+	public function find(int $id): ?Tag
 	{
 		return $this->model->find($id);
 	}

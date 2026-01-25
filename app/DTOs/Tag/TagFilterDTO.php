@@ -6,7 +6,7 @@ readonly class TagFilterDTO
 {
 	public function __construct(
 		public ?string $search = null,
-		// public ?string $tag = null,
+		public array $filters = [],
 		public ?string $sort,
 		public int $perPage,
 	) {}
@@ -15,7 +15,10 @@ readonly class TagFilterDTO
 	{
 		return new self(
 			search: $data['search'] ?? null,
-			// tag: $data['tag'] ?? null,
+			filters: array_filter([
+				'slug' => $data['slug'] ?? null,
+				// ...
+			], fn($v) => !is_null($v)),
 			sort: $data['sort'] ?? 'latest',
 			perPage: (int) (
 				$data['per_page']
