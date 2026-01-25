@@ -2,74 +2,80 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Tag\TagFilterDTO;
 use App\Models\Tag;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TagRepository
 {
-    /**
-     * The Tag model instance.
-     */
-    protected Tag $model;
+	/**
+	 * The Tag model instance.
+	 */
+	protected Tag $model;
 
-    /**
-     * TagRepository constructor.
-     */
-    public function __construct(Tag $model)
-    {
-        $this->model = $model;
-    }
+	/**
+	 * TagRepository constructor.
+	 */
+	public function __construct(Tag $model)
+	{
+		$this->model = $model;
+	}
 
-    /**
-     * Get all tags by params
-     */
-    public function getAll(array $filters = [], ?string $searchQuery = null): LengthAwarePaginator
-    {
-        return $this->model
-            ->filter($filters)
-            ->search($searchQuery)
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-    }
+	/**
+	 * Get all tags by params
+	 */
+	public function getAll(TagFilterDTO $dto): LengthAwarePaginator
+	{
+		// $filters = [
+		// 	'slug' => $dto->tag,
+		// ];
 
-    /**
-     * Find Tag by ID
-     */
-    public function find(int $id): ?Tag
-    {
-        return $this->model->find($id);
-    }
+		return $this->model
+			->search($dto->search)
+			// ->filter($filters)
+			->orderBy($dto->sort)
+			->paginate($dto->perPage);
+	}
 
-    /**
-     * Create new Tag
-     */
-    public function create(array $attributes): Tag
-    {
-        return $this->model->create($attributes);
-    }
 
-    /**
-     * Update Tag by ID
-     *
-     * @param  array<string, mixed>  $data
-     */
-    public function update(int $id, array $data): bool
-    {
-        $tag = $this->model->findOrFail($id);
+	/**
+	 * Find Tag by ID
+	 */
+	public function find(int $id): ?Tags
+	{
+		return $this->model->find($id);
+	}
 
-        return $tag->update($data);
-    }
+	/**
+	 * Create new Tag
+	 */
+	public function create(array $attributes): Tag
+	{
+		return $this->model->create($attributes);
+	}
 
-    /**
-     * Delete Tag by ID
-     *
-     *
-     * @throws \Exception
-     */
-    public function delete(int $id): ?bool
-    {
-        $tag = $this->model->findOrFail($id);
+	/**
+	 * Update Tag by ID
+	 *
+	 * @param  array<string, mixed>  $data
+	 */
+	public function update(int $id, array $data): bool
+	{
+		$tag = $this->model->findOrFail($id);
 
-        return $tag->delete();
-    }
+		return $tag->update($data);
+	}
+
+	/**
+	 * Delete Tag by ID
+	 *
+	 *
+	 * @throws \Exception
+	 */
+	public function delete(int $id): ?bool
+	{
+		$tag = $this->model->findOrFail($id);
+
+		return $tag->delete();
+	}
 }

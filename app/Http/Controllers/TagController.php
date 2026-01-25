@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\Tag\TagFilterDTO;
 use App\Services\TagService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+
 
 class TagController extends Controller
 {
-    protected $tagService;
+	protected $tagService;
 
-    public function __construct(TagService $tagService)
-    {
-        $this->tagService = $tagService;
-    }
+	public function __construct(TagService $tagService)
+	{
+		$this->tagService = $tagService;
+	}
 
-    public function index(Request $request)
-    {
-        $tags = $this->tagService->getAll(
-            filters: $request->all(),
-            searchQuery: $request->query('q')
-        );
+	public function index(Request $request)
+	{
+		$filterDTO = TagFilterDTO::fromRequest($request->all());
 
-        return inertia('Tags/Index', [
-            'tags' => $tags,
-        ]);
-    }
+		$tags = $this->tagService->getAll($filterDTO);
+
+		return Inertia::render('tags/index', [
+			'tags' => $tags,
+		]);
+	}
 }

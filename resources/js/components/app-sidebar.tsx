@@ -18,6 +18,7 @@ import {
 	Key,
 	LayoutGrid,
 	LockKeyholeIcon,
+	LucideTag,
 	Users2Icon,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -46,6 +47,12 @@ const mainNavItems: NavItem[] = [
 		href: '/users',
 		icon: Users2Icon,
 		permission: 'view_users',
+	},
+	{
+		title: 'Tags',
+		href: '/tags',
+		icon: LucideTag,
+		permission: 'view_tags',
 	},
 	{
 		title: 'Categories',
