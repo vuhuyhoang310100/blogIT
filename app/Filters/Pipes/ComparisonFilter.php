@@ -21,6 +21,9 @@ final class ComparisonFilter implements FilterContract
         '_to' => '<=',
     ];
 
+    /**
+     * Apply the filter to the query.
+     */
     public function apply(Builder $query, array $filters): Builder
     {
         foreach ($filters as $key => $value) {
@@ -41,6 +44,9 @@ final class ComparisonFilter implements FilterContract
         return $query;
     }
 
+    /**
+     * Apply the where condition to the query.
+     */
     private function applyWhere(Builder $query, string $field, string $operator, mixed $value): void
     {
         if ($this->isDateAttribute($query->getModel(), $field)) {
@@ -50,6 +56,9 @@ final class ComparisonFilter implements FilterContract
         }
     }
 
+    /**
+     * Check if the attribute is a date attribute.
+     */
     private function isDateAttribute(Model $model, string $attribute): bool
     {
         if (in_array($attribute, $model->getDates())) {

@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class SortFilter implements FilterContract
 {
+    /**
+     * Apply the filter to the query.
+     */
     public function apply(Builder $query, array $filters): Builder
     {
         $sort = $filters['sort'] ?? null;
@@ -21,11 +24,17 @@ final class SortFilter implements FilterContract
         return $query->orderBy($column, $direction);
     }
 
+    /**
+     * Get the direction from the sort.
+     */
     private function getDirectionFromSort(string $sort): string
     {
-        return substr($sort, 0, 1) === '-' ? 'desc' : 'asc';
+        return substr($sort, 0, 1) === '-' ? 'asc' : 'desc';
     }
 
+    /**
+     * Get the column from the sort.
+     */
     private function getColumnFromSort(string $sort): string
     {
         return ltrim($sort, '-+');

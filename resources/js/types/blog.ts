@@ -1,4 +1,5 @@
 import { PostStatus } from '@/constants';
+import { BaseFilter } from './filter';
 import { Pagination } from './pagination';
 
 // Interface for post
@@ -52,11 +53,7 @@ export interface PostFormData {
 	published_at: string | null;
 }
 
-export interface PostFilters {
-	q: string | null;
-	sort: string | null;
-	direction: 'asc' | 'desc' | null;
-	per_page: number | null;
+export interface PostFilters extends BaseFilter {
 	category_id: number | null;
 	status: PostStatus | null;
 	user_id: number | null;
@@ -65,7 +62,6 @@ export interface PostFilters {
 	is_featured: boolean | string | number | null;
 	published_at_from?: string | null;
 	published_at_to?: string | null;
-	[key: string]: unknown;
 }
 
 // Interface for category
@@ -115,3 +111,17 @@ export interface EditCategoryDialogProps {
 	category: SingleCategory | null;
 	flatCategories: FlatCategory[];
 }
+
+// Interface Tag
+export interface SingleTag {
+	id: number;
+	name: string;
+	slug?: string;
+	created_at: string;
+	updated_at: string;
+}
+export interface Tag extends Pagination {
+	data: SingleTag[];
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface TagFilters extends BaseFilter {}

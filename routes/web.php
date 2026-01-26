@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,6 +56,14 @@ Route::middleware(['auth', 'verified', 'admin.access'])->group(function () {
         Route::get('{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit')->can('edit_categories');
         Route::put('{category}', [CategoryController::class, 'update'])->name('categories.update')->can('edit_categories');
         Route::delete('{category}', [CategoryController::class, 'destroy'])->name('categories.destroy')->can('delete_categories');
+    });
+
+    Route::prefix('tags')->group(function () {
+        // Add your tags routes here
+        Route::get('/', [TagController::class, 'index'])->name('tags.index')->can('view_tags');
+        Route::post('/', [TagController::class, 'store'])->name('tags.store')->can('create_tags');
+        Route::put('{tag}', [TagController::class, 'update'])->name('tags.update')->can('edit_tags');
+        Route::delete('{tag}', [TagController::class, 'destroy'])->name('tags.destroy')->can('delete_tags');
     });
 });
 

@@ -275,6 +275,21 @@ export function PostFilterAdvance({
 							<SortOrderFilter
 								filters={localFilters}
 								apply={updateFilter}
+								sortOptions={[
+									{ label: 'ID', value: 'id' },
+									{
+										label: 'Published',
+										value: 'published_at',
+									},
+									{ label: 'Created', value: 'created_at' },
+									{ label: 'Title', value: 'title' },
+									{ label: 'Views', value: 'views_count' },
+									{
+										label: 'Comments',
+										value: 'comments_count',
+									},
+									{ label: 'Likes', value: 'likes_count' },
+								]}
 							/>
 						</FilterSection>
 					</div>

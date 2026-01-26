@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Builder;
 
 final class SearchFilter implements FilterContract
 {
+    /**
+     * Apply the filter to the query.
+     */
     public function apply(Builder $query, array $filters): Builder
     {
         if (! empty($filters['q']) && method_exists($query->getModel(), 'scopeSearch')) {
