@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Tag extends Model
 {
     use Filterable;
+
     /** @use HasFactory<\Database\Factories\TagFactory> */
     use HasFactory;
 
@@ -18,9 +19,17 @@ class Tag extends Model
 
     protected $searchable = [
         'name',
+        'slug',
     ];
 
     protected $fillable = [
+        'id',
+        'name',
+        'slug',
+    ];
+
+    protected $allowedFilters = [
+        'id',
         'name',
     ];
 

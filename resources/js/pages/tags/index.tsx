@@ -29,10 +29,11 @@ import {
 import { usePermissions } from '@/hooks/use-permissions';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { SingleTag, Tag } from '@/types/tag';
+import { SingleTag, Tag, TagFilters } from '@/types/blog';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { TagFilterAdvance } from './partials/filters';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -41,7 +42,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 	},
 ];
 
-export default function Tags({ tags }: { tags: Tag }) {
+export default function Tags({
+	tags,
+	filters,
+}: {
+	tags: Tag;
+	filters: TagFilters;
+}) {
 	const [openAddNewTagDialog, setOpenAddNewTagDialog] = useState(false);
 	const [openEditTagDialog, setOpenEditTagDialog] = useState(false);
 
@@ -118,20 +125,30 @@ export default function Tags({ tags }: { tags: Tag }) {
 			<Head title="Tags" />
 			<div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
 				<Card>
-					<CardHeader className="flex items-center justify-between">
-						<CardTitle>Tags Managements</CardTitle>
-						<CardAction>
-							{can('create_tags') && (
-								<Button
-									variant="default"
-									onClick={() => {
-										create();
-									}}
-								>
-									Add new
-								</Button>
-							)}
-						</CardAction>
+					<CardHeader className="space-y-4 border-b">
+						<div className="flex items-center justify-between">
+							<CardTitle>Tags Managements</CardTitle>
+							<CardAction>
+								{can('create_tags') && (
+									<Button
+										variant="default"
+										onClick={() => {
+											create();
+										}}
+									>
+										Add new
+									</Button>
+								)}
+							</CardAction>
+						</div>
+						<br />
+						{/* BO	TTOM HEADER */}
+						<div className="flex flex-wrap items-center justify-end gap-4">
+							{/* RIGHT: SEARCH / FILTER */}
+							<div className="flex-end flex flex-wrap items-center gap-2">
+								<TagFilterAdvance filters={filters} />
+							</div>
+						</div>
 					</CardHeader>
 					<hr />
 					<CardContent>

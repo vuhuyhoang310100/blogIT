@@ -5,24 +5,24 @@ namespace App\DTOs\Tag;
 readonly class TagFilterDTO
 {
     public function __construct(
-        public ?string $search,
-        public array $filters,
-        public ?string $sort,
-        public int $perPage,
+        public readonly array $filters,
+        public readonly string $sortField,
+        public readonly string $sortDirection,
+        public readonly int $perPage,
+        public readonly int $page,
     ) {}
 
     public static function fromRequest(array $data): self
     {
         return new self(
-            search: $data['search'] ?? null,
-            filters: array_filter([
-                'slug' => $data['slug'] ?? null,
-                // ...
-            ], fn ($v) => ! is_null($v)),
-            sort: $data['sort'] ?? 'id',
+            filters: $data,
+            sortField: $data['sort'] ?? 'id',
+            sortDirection: $data['direction'] ?? config('constant.DEFAULT_FILTERS.SORT_DIRECTION'),
             perPage: (int) (
-                $data['per_page']
-                ?? config('constant.PAGINATION.PER_PAGE', 10)
+                $data['per_page'] ?? config('constant.DEFAULT_FILTERS.PER_PAGE')
+            ),
+            page: (int) (
+                $data['page'] ?? config('constant.DEFAULT_FILTERS.PAGE')
             ),
         );
     }

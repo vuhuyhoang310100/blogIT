@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\Tag\CreateTagDTO;
-use App\DTOs\Tag\TagFilterDTO;
 use App\DTOs\Tag\UpdateTagDTO;
+use App\Http\Requests\Tag\IndexTagRequest;
 use App\Http\Requests\Tag\StoreTagRequest;
 use App\Http\Requests\Tag\UpdateTagRequest;
 use App\Services\TagService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TagController extends Controller
@@ -20,14 +19,14 @@ class TagController extends Controller
         $this->tagService = $tagService;
     }
 
-    public function index(Request $request)
+    public function index(IndexTagRequest $request)
     {
-        $filterDTO = TagFilterDTO::fromRequest($request->all());
-
-        $tags = $this->tagService->getAll($filterDTO);
+        $dto = $request->toQueryDTO();
+        $tags = $this->tagService->getAll($dto);
 
         return Inertia::render('tags/index', [
             'tags' => $tags,
+            'filters' => $request->validated(),
         ]);
     }
 

@@ -5,8 +5,8 @@ namespace App\Services;
 use App\DTOs\Tag\CreateTagDTO;
 use App\DTOs\Tag\TagFilterDTO;
 use App\DTOs\Tag\UpdateTagDTO;
-use App\Models\Tag;
-use App\Repositories\TagRepository;
+use App\Repositories\Contracts\TagRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TagService
 {
@@ -15,9 +15,9 @@ class TagService
     /**
      * Inject Tag repository
      *
-     * @param TagRepository
+     * @param TagRepositoryInterface
      */
-    public function __construct(TagRepository $tagRepository)
+    public function __construct(TagRepositoryInterface $tagRepository)
     {
         $this->tagRepository = $tagRepository;
     }
@@ -25,9 +25,9 @@ class TagService
     /**
      * Get all tags with params
      */
-    public function getAll(TagFilterDTO $filterDTO)
+    public function getAll(TagFilterDTO $dto): LengthAwarePaginator
     {
-        return $this->tagRepository->getAll($filterDTO);
+        return $this->tagRepository->paginate(filters: $dto->filters);
     }
 
     /**
