@@ -26,6 +26,7 @@ import {
 	POST_STATUS_DRAFT,
 	POST_STATUS_PENDING,
 	POST_STATUS_PUBLISHED,
+	POST_STATUS_SCHEDULE,
 	SEO_DESCRIPTION_MAX_LENGTH,
 	SEO_TITLE_MAX_LENGTH,
 } from '@/constants';
@@ -101,9 +102,19 @@ export function PostForm({
 		category_id: post?.category?.id ?? '',
 		status: post?.status ?? POST_STATUS_DRAFT,
 		is_featured: post?.is_featured ?? false,
-		published_at: post?.published_at
-			? new Date(post.published_at).toISOString().slice(0, 16)
-			: '',
+		published_at:
+			post?.publish_at || post?.published_at
+				? (() => {
+						const date = new Date(
+							post.publish_at || post.published_at || '',
+						);
+						return new Date(
+							date.getTime() - date.getTimezoneOffset() * 60000,
+						)
+							.toISOString()
+							.slice(0, 16);
+					})()
+				: '',
 		tag_ids: post?.tags?.map((t) => t.id) ?? [],
 		_method: method,
 	});
@@ -380,6 +391,12 @@ export function PostForm({
 																Pending
 															</SelectItem>
 															<SelectItem
+																value={POST_STATUS_SCHEDULE.toString()}
+																className="text-sm hover:cursor-pointer"
+															>
+																Schedule
+															</SelectItem>
+															<SelectItem
 																value={POST_STATUS_PUBLISHED.toString()}
 																className="text-sm hover:cursor-pointer"
 															>
@@ -417,37 +434,65 @@ export function PostForm({
 													/>
 												</div>
 
-												<div className="space-y-2">
-													<Label className="text-sm font-medium text-foreground">
-														Publish Date
-													</Label>
-													<div className="relative">
-														<Input
-															id="published_at"
-															type="datetime-local"
-															value={
-																data.published_at
-															}
-															onChange={(e) =>
-																setData(
-																	'published_at',
-																	e.target
-																		.value,
-																)
-															}
-															className={cn(
-																'h-10 bg-background text-sm hover:cursor-pointer',
-																errors.published_at &&
-																	'border-destructive focus-visible:ring-destructive',
+												{(data.status ===
+													POST_STATUS_SCHEDULE ||
+													data.status ===
+														POST_STATUS_PUBLISHED) && (
+													<div className="space-y-2">
+														<Label className="text-sm font-medium text-foreground">
+															{data.status ===
+															POST_STATUS_SCHEDULE
+																? 'Scheduled For'
+																: 'Publish Date'}
+														</Label>
+														<div className="relative">
+															<Input
+																id="published_at"
+																type="datetime-local"
+																value={
+																	data.published_at
+																}
+																onChange={(e) =>
+																	setData(
+																		'published_at',
+																		e.target
+																			.value,
+																	)
+																}
+																className={cn(
+																	'h-10 bg-background text-sm hover:cursor-pointer',
+																	(errors.published_at ||
+																		(data.status ===
+																			POST_STATUS_SCHEDULE &&
+																			data.published_at &&
+																			new Date(
+																				data.published_at,
+																			) <=
+																				new Date())) &&
+																		'border-destructive focus-visible:ring-destructive',
+																)}
+															/>
+														</div>
+														{data.status ===
+															POST_STATUS_SCHEDULE &&
+															data.published_at &&
+															new Date(
+																data.published_at,
+															) <= new Date() && (
+																<p className="text-xs text-destructive">
+																	Warning:
+																	Scheduled
+																	time is in
+																	the past.
+																</p>
 															)}
+														<InputError
+															message={
+																errors.published_at
+															}
 														/>
 													</div>
-													<InputError
-														message={
-															errors.published_at
-														}
-													/>
-												</div>
+												)}
 											</div>
 										</div>
 									</div>
