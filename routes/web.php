@@ -14,7 +14,6 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'admin.access'])->group(function () {
 
-
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index')->can('view_permissions');
     Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store')->can('create_permissions');
     Route::put('/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update')->can('edit_permissions');
