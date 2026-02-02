@@ -18,6 +18,7 @@ import { useMemo, useState } from 'react';
 import CategoriesTable from './partials/CategoriesTable';
 import CreateCategoryDialog from './partials/CreateCategoryDialog';
 import EditCategoryDialog from './partials/EditCategoryDialog';
+import {CategoryFilters}  from '@/types/blog';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{

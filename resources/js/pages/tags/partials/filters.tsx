@@ -5,10 +5,11 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { FilterSection } from '@/components/filter-section';
-import { SearchBox } from '@/components/search-box';
+import  SearchBox  from '@/components/search-box';
+import  { SearchBoxRef }  from '@/components/search-box';
 
 import { cleanFilters } from '@/lib/clean-filters';
 import { TagFilters } from '@/types';
@@ -20,11 +21,14 @@ import TagController from '@/actions/App/Http/Controllers/TagController';
 export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 	const [open, setOpen] = useState(false);
 	const [localFilters, setLocalFilters] = useState<TagFilters>(filters);
-
+	const inputRef = useRef<SearchBoxRef>(null);
 	// Sync local filters with prop when opened
 	useEffect(() => {
 		if (open) {
 			setLocalFilters(filters);
+		}
+		if (filters.length == 0) {
+			inputRef.current?.reset();
 		}
 	}, [open, filters]);
 
@@ -35,7 +39,7 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 	const apply = (next: Partial<TagFilters>) => {
 		const payload = cleanFilters({
 			...next,
-			page: 1,
+			// page: 1,
 		});
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,7 +56,9 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 	};
 
 	const handleReset = () => {
-		setLocalFilters({} as TagFilters);
+		setLocalFilters({
+			'q': localFilters.q ?? ''
+		} as TagFilters);
 	};
 
 	return (
@@ -63,6 +69,7 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 						defaultValue={filters.q ?? ''}
 						placeholder="Search tags..."
 						onSearch={(q) => apply({ ...filters, q })}
+						ref={inputRef}
 					/>
 				</div>
 			</div>
