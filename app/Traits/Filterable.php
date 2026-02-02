@@ -57,13 +57,22 @@ trait Filterable
 
             // 2. Relational Filter: user.name = 'John'
             if (str_contains($key, '.')) {
-                [$relation, $column] = explode('.', $key, 2);
+                $relation = substr($key, 0, strrpos($key, '.'));
+                $column = substr($key, strrpos($key, '.') + 1);
 
                 // Ideally, we should check if relation is allowed, but for now we assume 'user.id' style is safe enough
                 // if we trust the input keys. To be stricter, one could define $allowedRelations.
                 $query->whereHas($relation, function ($q) use ($column, $value) {
                     if (is_array($value)) {
-                        $q->whereIn($column, $value);
+                        if (isset($value['value'])) {
+                            $q->where(
+                                $column,
+                                $value['operator'] ?? '=',
+                                $value['value']
+                            );
+                        } else {
+                            $q->whereIn($column, $value);
+                        }
                     } else {
                         $q->where($column, $value);
                     }

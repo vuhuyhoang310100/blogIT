@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class TrashedFilter implements FilterContract
 {
+    /**
+     * Apply the filter to the query.
+     */
     public function apply(Builder $query, array $filters): Builder
     {
         $model = $query->getModel();

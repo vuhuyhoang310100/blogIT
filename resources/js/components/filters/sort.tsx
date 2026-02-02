@@ -1,4 +1,4 @@
-import { PostFilters } from '@/types';
+import { BaseFilter, SortOrderFilterProps } from '@/types/filter';
 import {
 	Select,
 	SelectContent,
@@ -7,50 +7,38 @@ import {
 	SelectValue,
 } from '../ui/select';
 
-export function SortOrderFilter({
+export function SortOrderFilter<T extends BaseFilter>({
 	filters,
 	apply,
-}: {
-	filters: PostFilters;
-	apply: (v: Partial<PostFilters>) => void;
-}) {
+	sortOptions,
+}: SortOrderFilterProps<T>) {
 	return (
 		<div className="flex items-center gap-1.5 py-1">
 			<Select
 				value={filters.sort ?? ''}
-				onValueChange={(v) => apply({ sort: v })}
+				onValueChange={(v) => apply({ sort: v } as Partial<T>)}
 			>
 				<SelectTrigger className="h-8 flex-1 text-xs hover:cursor-pointer">
 					<SelectValue placeholder="Sort by" />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="id" className="text-xs">
-						ID
-					</SelectItem>
-					<SelectItem value="published_at" className="text-xs">
-						Published
-					</SelectItem>
-					<SelectItem value="created_at" className="text-xs">
-						Created
-					</SelectItem>
-					<SelectItem value="title" className="text-xs">
-						Title
-					</SelectItem>
-					<SelectItem value="views_count" className="text-xs">
-						Views
-					</SelectItem>
-					<SelectItem value="comments_count" className="text-xs">
-						Comments
-					</SelectItem>
-					<SelectItem value="likes_count" className="text-xs">
-						Likes
-					</SelectItem>
+					{sortOptions.map((option) => (
+						<SelectItem
+							key={option.value}
+							value={option.value}
+							className="text-xs"
+						>
+							{option.label}
+						</SelectItem>
+					))}
 				</SelectContent>
 			</Select>
 
 			<Select
 				value={filters.direction ?? 'desc'}
-				onValueChange={(v) => apply({ direction: v as 'asc' | 'desc' })}
+				onValueChange={(v) =>
+					apply({ direction: v as 'asc' | 'desc' } as Partial<T>)
+				}
 			>
 				<SelectTrigger className="h-8 w-[120px] text-xs hover:cursor-pointer">
 					<SelectValue />
