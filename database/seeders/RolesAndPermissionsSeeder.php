@@ -76,6 +76,12 @@ class RolesAndPermissionsSeeder extends Seeder
             // System
             'view_settings',
             'edit_settings',
+
+            // Handlepdfs Permissions
+            'view_handlepdfs',
+            'create_handlepdfs',
+            'edit_handlepdfs',
+            'delete_handlepdfs',
         ];
 
         foreach ($permissions as $permission) {

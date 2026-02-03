@@ -62,6 +62,16 @@ Route::middleware(['auth', 'verified', 'admin.access'])->group(function () {
         Route::put('{tag}', [TagController::class, 'update'])->name('tags.update')->can('edit_tags');
         Route::delete('{tag}', [TagController::class, 'destroy'])->name('tags.destroy')->can('delete_tags');
     });
+
+    Route::prefix('handlepdfs')->group(function () {
+        Route::get('/', [HandlepdfController::class, 'index'])->name('handlepdfs.index')->can('view_handlepdfs');
+        Route::post('/', [HandlepdfController::class, 'store'])->name('handlepdfs.store')->can('create_handlepdfs');
+        Route::get('/create', [HandlepdfController::class, 'create'])->name('handlepdfs.create')->can('create_handlepdfs');
+        Route::get('/{handlepdf}', [HandlepdfController::class, 'show'])->name('handlepdfs.show')->can('view_handlepdfs');
+        Route::get('/{handlepdf}/edit', [HandlepdfController::class, 'edit'])->name('handlepdfs.edit')->can('edit_handlepdfs');
+        Route::put('/{handlepdf}', [HandlepdfController::class, 'update'])->name('handlepdfs.update')->can('edit_handlepdfs');
+        Route::delete('/{handlepdf}', [HandlepdfController::class, 'destroy'])->name('handlepdfs.destroy')->can('delete_handlepdfs');
+    });
 });
 
 require __DIR__.'/settings.php';

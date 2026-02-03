@@ -76,6 +76,13 @@ const mainNavItems: NavItem[] = [
 			},
 		],
 	},
+
+	{
+		title: 'Handle PDFs',
+		href: '/handlepdfs',
+		icon: FileText,
+		permission: 'view_handlepdfs',
+	},
 ];
 
 // const footerNavItems: NavItem[] = [
