@@ -10,16 +10,19 @@ import { useEffect, useState } from 'react';
 import { FilterSection } from '@/components/filter-section';
 import { SearchBox } from '@/components/search-box';
 
+import CategoryController from '@/actions/App/Http/Controllers/CategoryController';
 import { cleanFilters } from '@/lib/clean-filters';
-import { TagFilters } from '@/types';
+import { CategoryFilters } from '@/types';
 import { ArrowUpDown, ChevronDown, Filter } from 'lucide-react';
 import { SortOrderFilter } from '../../../components/filters/sort';
 
-import TagController from '@/actions/App/Http/Controllers/TagController';
-
-export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
+export function CategoryFilterAdvance({
+	filters,
+}: {
+	filters: CategoryFilters;
+}) {
 	const [open, setOpen] = useState(false);
-	const [localFilters, setLocalFilters] = useState<TagFilters>(filters);
+	const [localFilters, setLocalFilters] = useState<CategoryFilters>(filters);
 
 	// Sync local filters with prop when opened
 	useEffect(() => {
@@ -28,18 +31,18 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 		}
 	}, [open, filters]);
 
-	const updateFilter = (next: Partial<TagFilters>) => {
+	const updateFilter = (next: Partial<CategoryFilters>) => {
 		setLocalFilters((prev) => ({ ...prev, ...next }));
 	};
 
-	const apply = (next: Partial<TagFilters>) => {
+	const apply = (next: Partial<CategoryFilters>) => {
 		const payload = cleanFilters({
 			...next,
 			page: 1,
 		});
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		router.get(TagController.index.url(), payload as any, {
+		router.get(CategoryController.index.url(), payload as any, {
 			preserveScroll: true,
 			preserveState: true,
 			replace: true,
@@ -52,7 +55,7 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 	};
 
 	const handleReset = () => {
-		setLocalFilters({} as TagFilters);
+		setLocalFilters({} as CategoryFilters);
 	};
 
 	return (
@@ -61,7 +64,7 @@ export function TagFilterAdvance({ filters }: { filters: TagFilters }) {
 				<div className="max-w-md min-w-[200px] flex-1">
 					<SearchBox
 						defaultValue={filters.q ?? ''}
-						placeholder="Search tags..."
+						placeholder="Search Category..."
 						onSearch={(q) => apply({ ...filters, q })}
 					/>
 				</div>

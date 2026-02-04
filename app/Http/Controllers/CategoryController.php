@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Constants\Category;
 use App\DTOs\Category\CreateCategoryDTO;
 use App\DTOs\Category\UpdateCategoryDTO;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\Category\CategoryRequest;
+use App\Http\Requests\Category\IndexCategoryRequest;
 use App\Services\CategoryService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -26,12 +27,14 @@ class CategoryController extends Controller
     /**
      * Get all categories with full subcategories
      */
-    public function index(): Response
+    public function index(IndexCategoryRequest $request): Response
     {
-        $categories = $this->categoryService->getAll(Category::GET_ROOT);
+        $dto = $request->toQueryDTO();
+        $categories = $this->categoryService->getAll(Category::GET_ROOT, $dto);
 
         return Inertia::render('categories/index', [
             'categories' => $categories,
+            'filters' => $request->validated(),
         ]);
     }
 
