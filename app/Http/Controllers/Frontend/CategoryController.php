@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('frontend/categories/index', [
-            'categories' => Inertia::defer(fn () => $this->categoryService->getCategoriesWithPosts()),
+            'categories' => $this->categoryService->getCategoriesWithPosts(),
         ]);
     }
 }

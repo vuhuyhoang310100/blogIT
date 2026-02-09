@@ -16,7 +16,7 @@ class TagController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('frontend/tags/index', [
-            'tags' => Inertia::defer(fn () => $this->tagService->getTagsWithPosts()),
+            'tags' => $this->tagService->getTagsWithPosts(),
         ]);
     }
 }

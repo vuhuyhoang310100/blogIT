@@ -61,7 +61,7 @@ import {
 import { useAppearance } from '@/hooks/use-appearance';
 import { useScrollDirection } from '@/hooks/use-scroll-direction';
 import { logout } from '@/routes';
-// import articlesRoute from '@/routes/articles';
+import articlesRoute from '@/routes/articles';
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
@@ -96,7 +96,7 @@ const GuestNavbar = ({
 					title: 'Articles',
 					description: 'Deep dives into tech and design',
 					icon: <Book className="size-5" />,
-					url: '/f/blogs',
+					url: articlesRoute.index.url(),
 				},
 				{
 					title: 'Categories',
@@ -173,17 +173,17 @@ const GuestNavbar = ({
 		{
 			title: 'The Future of AI',
 			category: 'Technology',
-			url: '/f/blogs/the-future-of-ai',
+			url: articlesRoute.show.url('the-future-of-ai'),
 		},
 		{
 			title: 'React Performance',
 			category: 'Development',
-			url: '/f/blogs/react-performance',
+			url: articlesRoute.show.url('react-performance'),
 		},
 		{
 			title: 'System Design 101',
 			category: 'Architecture',
-			url: '/f/blogs/system-design-101',
+			url: articlesRoute.show.url('system-design-101'),
 		},
 	].filter((item) =>
 		item.title.toLowerCase().includes(searchQuery.toLowerCase()),
