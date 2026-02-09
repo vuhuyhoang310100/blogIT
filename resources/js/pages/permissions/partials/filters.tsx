@@ -8,46 +8,42 @@ import { router } from '@inertiajs/react';
 import { useEffect, useState, useRef } from 'react';
 
 import { FilterSection } from '@/components/filter-section';
-import SearchBox from '@/components/search-box';
+import  SearchBox  from '@/components/search-box';
 import  { SearchBoxRef }  from '@/components/search-box';
 
-import CategoryController from '@/actions/App/Http/Controllers/CategoryController';
-import { StatusFilter } from '@/components/filters/status_v2';
 import { cleanFilters } from '@/lib/clean-filters';
-import { CategoryFilters } from '@/types';
+import { PermissionFilters } from '@/types';
 import { ArrowUpDown, ChevronDown, Filter } from 'lucide-react';
 import { SortOrderFilter } from '../../../components/filters/sort';
 
-import { ActiveStatus } from '@/constants';
+import PermissionController from '@/actions/App/Http/Controllers/PermissionController';
 
-export function CategoryFilterAdvance({
-	filters,
-}: {
-	filters: CategoryFilters;
-}) {
+export function PermissionFilterAdvance({ filters }: { filters: PermissionFilters }) {
 	const [open, setOpen] = useState(false);
-	const [localFilters, setLocalFilters] = useState<CategoryFilters>(filters);
+	const [localFilters, setLocalFilters] = useState<PermissionFilters>(filters);
 	const inputRef = useRef<SearchBoxRef>(null);
-
 	// Sync local filters with prop when opened
 	useEffect(() => {
 		if (open) {
 			setLocalFilters(filters);
 		}
+		if (filters.length == 0) {
+			inputRef.current?.reset();
+		}
 	}, [open, filters]);
 
-	const updateFilter = (next: Partial<CategoryFilters>) => {
+	const updateFilter = (next: Partial<PermissionFilters>) => {
 		setLocalFilters((prev) => ({ ...prev, ...next }));
 	};
 
-	const apply = (next: Partial<CategoryFilters>) => {
+	const apply = (next: Partial<PermissionFilters>) => {
 		const payload = cleanFilters({
 			...next,
-			page: 1,
+			// page: 1,
 		});
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		router.get(CategoryController.index.url(), payload as any, {
+		router.get(PermissionController.index.url(), payload as any, {
 			preserveScroll: true,
 			preserveState: true,
 			replace: true,
@@ -56,14 +52,13 @@ export function CategoryFilterAdvance({
 	};
 
 	const handleApply = () => {
-		console.log(localFilters);
 		apply(localFilters);
 	};
 
 	const handleReset = () => {
 		setLocalFilters({
 			'q': localFilters.q ?? ''
-		} as CategoryFilters);
+		} as PermissionFilters);
 	};
 
 	return (
@@ -72,7 +67,7 @@ export function CategoryFilterAdvance({
 				<div className="max-w-md min-w-[200px] flex-1">
 					<SearchBox
 						defaultValue={filters.q ?? ''}
-						placeholder="Search Category..."
+						placeholder="Search permissions..."
 						onSearch={(q) => apply({ ...filters, q })}
 						ref={inputRef}
 					/>
@@ -112,19 +107,6 @@ export function CategoryFilterAdvance({
 								]}
 							/>
 						</FilterSection>
-						<StatusFilter
-							filters={localFilters}
-							apply={updateFilter}
-							title="Status"
-							filterKey="is_active"
-							options={[
-								{ label: 'Active', value: ActiveStatus.ACTIVE },
-								{
-									label: 'Inactive',
-									value: ActiveStatus.INACTIVE,
-								},
-							]}
-						/>
 					</div>
 
 					<div className="mt-4 flex items-center justify-end gap-2 border-t pt-4">

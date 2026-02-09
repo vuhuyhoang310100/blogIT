@@ -6,3 +6,4 @@ export * from './page.d';
 export * from './pagination';
 export * from './role-permission';
 export * from './ui';
+export * from './permission';

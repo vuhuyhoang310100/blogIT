@@ -15,6 +15,11 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $searchable = [
+        'name',
+        'slug',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

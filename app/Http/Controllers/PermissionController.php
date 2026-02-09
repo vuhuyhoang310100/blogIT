@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Permission\IndexPermissionRequest;
 use App\Http\Requests\Permission\StorePermissionRequest;
 use App\Http\Requests\Permission\UpdatePermissionRequest;
 use App\Models\Permission;
@@ -14,41 +15,34 @@ class PermissionController extends Controller
 {
     public function __construct(private readonly PermissionService $permissionService) {}
 
-    public function index(): Response
+    public function index(IndexPermissionRequest $request): Response
     {
-        $permissions = Permission::select(['id', 'name', 'description', 'created_at', 'updated_at'])
-            ->latest()
-            ->paginate(15)
-            ->through(fn ($permission) => [
-                'id' => $permission->id,
-                'name' => $permission->name,
-                'description' => $permission->description,
-                'created_at' => $permission->created_at?->format('Y-m-d H:i:s'),
-                'updated_at' => $permission->updated_at?->format('Y-m-d H:i:s'),
-            ]);
+        $dto = $request->toQueryDTO();
+        $permissions = $this->permissionService->getAll($dto);
 
         return Inertia::render('permissions/index', [
             'permissions' => $permissions,
+            'filters' => $dto->filters,
         ]);
     }
 
     public function store(StorePermissionRequest $request): RedirectResponse
     {
-        $this->permissionService->createPermission($request->validated());
+        $this->permissionService->store($request->validated());
 
         return to_route('permissions.index')->with('message', 'Permission created successfully.');
     }
 
     public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse
     {
-        $this->permissionService->editPermission($permission, $request->validated());
+        $this->permissionService->update($permission->id, $request->validated());
 
         return to_route('permissions.index')->with('message', 'Permission updated successfully.');
     }
 
     public function destroy(Permission $permission): RedirectResponse
     {
-        $this->permissionService->deletePermission($permission);
+        $this->permissionService->delete($permission->id);
 
         return to_route('permissions.index')->with('message', 'Permission deleted successfully.');
     }

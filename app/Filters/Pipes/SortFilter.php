@@ -18,7 +18,7 @@ final class SortFilter implements FilterContract
             return $query;
         }
 
-        $direction = $this->getDirectionFromSort($sort);
+        $direction = $filters['direction'] ?? $this->getDirectionFromSort($sort);
         $column = $this->getColumnFromSort($sort);
 
         return $query->orderBy($column, $direction);

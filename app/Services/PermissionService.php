@@ -2,46 +2,53 @@
 
 namespace App\Services;
 
-use App\Models\Permission;
-use App\Services\Traits\TransactionTrait;
+use App\Repositories\Contracts\PermissionRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\DTOs\Permission\PermissionFilterDTO;
 
 class PermissionService
 {
-    use TransactionTrait;
+    protected $permissionRepository;
 
     /**
-     * Creates a new permission in the database.
+     * Inject Permission repository
      *
-     * @param  array  $data  The data to be inserted.
-     * @return Permission The newly created permission.
+     * @param PermissionRepositoryInterface
      */
-    public function createPermission(array $data): Permission
+    public function __construct(PermissionRepositoryInterface $permissionRepository)
     {
-        return Permission::create($data);
+        $this->permissionRepository = $permissionRepository;
     }
 
     /**
-     * Edits a permission in the database.
-     *
-     * @param  Permission  $permission  The permission to be edited.
-     * @param  array  $data  The data to be updated.
-     * @return Permission The edited permission.
+     * Get all permission with params
      */
-    public function editPermission(Permission $permission, array $data): Permission
+    public function getAll(PermissionFilterDTO $dto): LengthAwarePaginator
     {
-        $permission->update($data);
-
-        return $permission;
+        return $this->permissionRepository->paginate(filters: $dto->filters);
     }
 
     /**
-     * Deletes a permission from the database.
-     *
-     * @param  Permission  $permission  The permission to be deleted.
-     * @return bool True if the permission was successfully deleted, false otherwise.
+     * Store a new permission
      */
-    public function deletePermission(Permission $permission): bool
+    public function store(array $request): void
     {
-        return (bool) $permission->delete();
+        $this->permissionRepository->create($request);
+    }
+
+    /**
+     * Update an existing permission
+     */
+    public function update(int $id, array $request): void
+    {
+        $this->permissionRepository->update($id, $request);
+    }
+
+    /**
+     * Delete an existing permission
+     */
+    public function delete(int $id): void
+    {
+        $this->permissionRepository->delete($id);
     }
 }

@@ -130,5 +130,3 @@ export interface Tag extends Pagination {
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface TagFilters extends BaseFilter {}
-
-export interface CategoryFilters extends BaseFilter {}
