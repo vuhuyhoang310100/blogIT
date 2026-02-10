@@ -2,13 +2,17 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
 export function SearchBox({
+	value,
 	defaultValue,
 	placeholder = 'Search...',
 	onSearch,
+	onChange,
 }: {
+	value?: string;
 	defaultValue?: string;
 	placeholder?: string;
 	onSearch: (value: string) => void;
+	onChange?: (value: string) => void;
 }) {
 	return (
 		<div className="relative">
@@ -16,13 +20,17 @@ export function SearchBox({
 			<Input
 				type="search"
 				placeholder={placeholder}
+				value={value}
 				defaultValue={defaultValue}
+				onChange={(e) => {
+					onChange?.(e.target.value);
+				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter') {
 						onSearch((e.target as HTMLInputElement).value);
 					}
 				}}
-				className="w-[250px] pl-9"
+				className="w-full pl-9"
 			/>
 		</div>
 	);

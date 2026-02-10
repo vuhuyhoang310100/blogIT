@@ -31,7 +31,7 @@ class ArticleService
         }
 
         $posts = $this->postRepository->paginate(
-            perPage: $queryDTO->perPage,
+            perPage: 10,
             columns: ['*'],
             filters: $filters,
             relations: ['user:id,name', 'category:id,name']

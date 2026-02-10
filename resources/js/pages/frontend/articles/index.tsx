@@ -1,10 +1,10 @@
 import HeaderSection from '@/components/frontend/header-section';
 import { PostCard } from '@/components/frontend/post-card';
+import { SearchBox } from '@/components/search-box';
 import { SeoHead } from '@/components/seo-head';
 import { PostCardSkeleton } from '@/components/skeletons/post-card-skeleton';
 import { TablePaginationLinks } from '@/components/table-paginate-simple';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 
 import {
 	Sheet,
@@ -30,7 +30,10 @@ import {
 	ArrowDownWideNarrow,
 	ArrowUpNarrowWide,
 	Filter,
+	LayoutGrid,
 	Search,
+	Sparkles,
+	Tags,
 	X,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -48,6 +51,170 @@ interface ArticlesIndexProps {
 	tags?: ResourceCollection<SingleTag>;
 }
 
+interface FilterContentProps {
+	search: string;
+	setSearch: (value: string) => void;
+	categories?: ResourceCollection<SingleCategory>;
+	tags?: ResourceCollection<SingleTag>;
+	filters: ArticlesIndexProps['filters'];
+	handleCategoryChange: (value: string) => void;
+	handleTagChange: (value: string) => void;
+	isMobile?: boolean;
+}
+
+const FilterContent = ({
+	search,
+	setSearch,
+	categories,
+	tags,
+	filters,
+	handleCategoryChange,
+	handleTagChange,
+	isMobile = false,
+}: FilterContentProps) => (
+	<div className={cn('space-y-8', isMobile && 'space-y-6')}>
+		{/* Search Section */}
+		<div className="space-y-3">
+			<h3 className="flex items-center gap-2 text-[9px] font-black tracking-[0.2em] text-muted-foreground uppercase opacity-60">
+				<Search className="h-3 w-3" />
+				Search
+			</h3>
+			<SearchBox
+				value={search}
+				onSearch={(val) => setSearch(val)}
+				onChange={(val) => setSearch(val)}
+				placeholder="Type to search..."
+			/>
+		</div>
+
+		<Deferred
+			data={['categories', 'tags']}
+			fallback={
+				<div className="space-y-8">
+					<div className="space-y-3">
+						<Skeleton className="h-3 w-20" />
+						<div className="space-y-1.5">
+							{Array.from({ length: 5 }).map((_, i) => (
+								<Skeleton
+									key={`cat-s-${i}`}
+									className="h-8 w-full rounded-lg"
+								/>
+							))}
+						</div>
+					</div>
+					<div className="space-y-3">
+						<Skeleton className="h-3 w-20" />
+						<div className="flex flex-wrap gap-1.5">
+							{Array.from({ length: 8 }).map((_, i) => (
+								<Skeleton
+									key={`tag-s-${i}`}
+									className="h-6 w-14 rounded-md"
+								/>
+							))}
+						</div>
+					</div>
+				</div>
+			}
+		>
+			{/* Categories Section */}
+			<div className="space-y-3">
+				<h3 className="flex items-center gap-2 text-[9px] font-black tracking-[0.2em] text-muted-foreground uppercase opacity-60">
+					<LayoutGrid className="h-3 w-3" />
+					Categories
+				</h3>
+				<div className="flex flex-col gap-0.5">
+					<button
+						onClick={() => handleCategoryChange('all')}
+						className={cn(
+							'flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 hover:cursor-pointer',
+							!filters.category
+								? 'bg-primary/10 text-primary'
+								: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+						)}
+					>
+						<span>All Topics</span>
+					</button>
+					{categories?.data?.map((cat) => (
+						<button
+							key={cat.id}
+							onClick={() => handleCategoryChange(cat.slug)}
+							className={cn(
+								'flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 hover:cursor-pointer',
+								filters.category === cat.slug
+									? 'bg-primary/10 text-primary'
+									: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+							)}
+						>
+							<span className="truncate">{cat.name}</span>
+							<span
+								className={cn(
+									'ml-2 flex h-4.5 min-w-[18px] items-center justify-center rounded-md px-1 text-[8px] font-black tabular-nums',
+									filters.category === cat.slug
+										? 'bg-primary text-white'
+										: 'bg-muted text-muted-foreground',
+								)}
+							>
+								{cat.posts_count || 0}
+							</span>
+						</button>
+					))}
+				</div>
+			</div>
+
+			{/* Tags Section */}
+			<div className="space-y-3">
+				<h3 className="flex items-center gap-2 text-[9px] font-black tracking-[0.2em] text-muted-foreground uppercase opacity-60">
+					<Tags className="h-3 w-3" />
+					Popular Tags
+				</h3>
+				<div className="flex flex-wrap gap-1.5">
+					<button
+						onClick={() => handleTagChange('all')}
+						className={cn(
+							'rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200 hover:cursor-pointer',
+							!filters.tag
+								? 'border-primary/20 bg-primary/10 text-primary'
+								: 'border-border/50 bg-card text-muted-foreground hover:border-primary/30 hover:text-primary',
+						)}
+					>
+						#all
+					</button>
+					{tags?.data?.map((tag) => (
+						<button
+							key={tag.id}
+							onClick={() => handleTagChange(tag.slug || '')}
+							className={cn(
+								'flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200 hover:cursor-pointer',
+								filters.tag === tag.slug
+									? 'border-primary/20 bg-primary/10 text-primary'
+									: 'border-border/50 bg-card text-muted-foreground hover:border-primary/30 hover:text-primary',
+							)}
+						>
+							<span>#{tag.name}</span>
+							<span
+								className={cn(
+									'text-[8px] font-black tabular-nums opacity-60',
+									filters.tag === tag.slug
+										? 'text-primary'
+										: 'text-muted-foreground',
+								)}
+							>
+								{tag.posts_count || 0}
+							</span>
+						</button>
+					))}
+				</div>
+			</div>
+		</Deferred>
+	</div>
+);
+
+const sortOptions = [
+	{ label: 'Latest', sort: 'created_at' },
+	{ label: 'Views', sort: 'views_count' },
+	{ label: 'Likes', sort: 'likes_count' },
+];
+
 export default function ArticlesIndex({
 	articles,
 	filters,
@@ -56,7 +223,7 @@ export default function ArticlesIndex({
 }: ArticlesIndexProps) {
 	const [search, setSearch] = useState(filters.search || '');
 	const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
-	const debouncedSearch = useDebounce(search, 500);
+	const debouncedSearch = useDebounce(search, 600);
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -64,6 +231,11 @@ export default function ArticlesIndex({
 			behavior: 'smooth',
 		});
 	};
+
+	// Sync local search state with filters prop (for back button or clear actions)
+	useEffect(() => {
+		setSearch(filters.search || '');
+	}, [filters.search]);
 
 	const updateFilters = useCallback(
 		(newFilters: Partial<typeof filters>) => {
@@ -89,7 +261,12 @@ export default function ArticlesIndex({
 	);
 
 	useEffect(() => {
-		if (debouncedSearch !== (filters.search || '')) {
+		const isSearchChanged = debouncedSearch !== (filters.search || '');
+		// Only trigger search if search is cleared OR minimum 2 characters are entered
+		const isSearchValid =
+			debouncedSearch.length === 0 || debouncedSearch.length >= 2;
+
+		if (isSearchChanged && isSearchValid) {
 			updateFilters({ search: debouncedSearch });
 		}
 	}, [debouncedSearch, filters.search, updateFilters]);
@@ -141,148 +318,8 @@ export default function ArticlesIndex({
 
 	const showClearAll = !!(filters.search || filters.category || filters.tag);
 
-	const sortOptions = [
-		{ label: 'Latest', sort: 'created_at' },
-		{ label: 'Views', sort: 'views_count' },
-		{ label: 'Likes', sort: 'likes_count' },
-	];
-
 	const currentSort = filters.sort || 'created_at';
 	const currentDirection = filters.direction || 'desc';
-
-	const FilterContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-		<div className={cn('space-y-12', isMobile && 'space-y-8')}>
-			{/* Search */}
-			<div className="relative">
-				<Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-				<Input
-					placeholder="Search articles..."
-					className="h-12 rounded-2xl border-none bg-background pl-12 shadow-sm focus-visible:ring-primary/20"
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
-				/>
-				{search && (
-					<button
-						onClick={() => setSearch('')}
-						className="absolute top-1/2 right-4 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-					>
-						<X className="h-4 w-4" />
-					</button>
-				)}
-			</div>
-
-			<Deferred
-				data={['categories', 'tags']}
-				fallback={
-					<div className="space-y-12">
-						<div className="space-y-4">
-							<Skeleton className="h-6 w-24" />
-							<div className="space-y-2">
-								{Array.from({ length: 5 }).map((_, i) => (
-									<Skeleton
-										key={`cat-s-${i}`}
-										className="h-10 w-full rounded-xl"
-									/>
-								))}
-							</div>
-						</div>
-						<div className="space-y-4">
-							<Skeleton className="h-6 w-24" />
-							<div className="flex flex-wrap gap-2">
-								{Array.from({ length: 8 }).map((_, i) => (
-									<Skeleton
-										key={`tag-s-${i}`}
-										className="h-8 w-20 rounded-lg"
-									/>
-								))}
-							</div>
-						</div>
-					</div>
-				}
-			>
-				{/* Categories List */}
-				<div className="space-y-4">
-					<h3 className="text-xs font-black tracking-[0.2em] text-muted-foreground uppercase">
-						Categories
-					</h3>
-					<div className="flex flex-col gap-1">
-						<button
-							onClick={() => handleCategoryChange('all')}
-							className={cn(
-								'flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-bold transition-all',
-								!filters.category
-									? 'bg-blue-100 text-white shadow-lg shadow-primary/20'
-									: 'text-muted-foreground hover:bg-primary/5 hover:text-primary',
-							)}
-						>
-							<span>All Categories</span>
-						</button>
-						{categories?.data?.map((cat) => (
-							<button
-								key={cat.id}
-								onClick={() => handleCategoryChange(cat.slug)}
-								className={cn(
-									'flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-bold transition-all',
-									filters.category === cat.slug
-										? 'bg-primary text-white shadow-lg shadow-primary/20'
-										: 'text-muted-foreground hover:bg-primary/5 hover:text-primary',
-								)}
-							>
-								<span className="truncate">{cat.name}</span>
-								<span
-									className={cn(
-										'ml-2 rounded-lg px-2 py-0.5 text-[10px] font-black',
-										filters.category === cat.slug
-											? 'bg-white/20 text-white'
-											: 'bg-primary/5 text-primary',
-									)}
-								>
-									{cat.posts_count || 0}
-								</span>
-							</button>
-						))}
-					</div>
-				</div>
-
-				{/* Tags Cloud */}
-				<div className="space-y-4">
-					<h3 className="text-xs font-black tracking-[0.2em] text-muted-foreground uppercase">
-						Popular Tags
-					</h3>
-					<div className="flex flex-wrap gap-2">
-						<button
-							onClick={() => handleTagChange('all')}
-							className={cn(
-								'rounded-lg px-3 py-1.5 text-xs font-bold transition-all',
-								!filters.tag
-									? 'bg-primary text-white shadow-md shadow-primary/10'
-									: 'bg-background text-muted-foreground shadow-sm hover:bg-primary/5 hover:text-primary',
-							)}
-						>
-							#all
-						</button>
-						{tags?.data?.map((tag) => (
-							<button
-								key={tag.id}
-								onClick={() => handleTagChange(tag.slug || '')}
-								className={cn(
-									'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all',
-									filters.tag === tag.slug
-										? 'bg-primary text-white shadow-md shadow-primary/10'
-										: 'bg-background text-muted-foreground shadow-sm hover:bg-primary/5 hover:text-primary',
-								)}
-							>
-								<span>#{tag.name}</span>
-								<span className="opacity-60">
-									({tag.posts_count || 0})
-								</span>
-							</button>
-						))}
-					</div>
-				</div>
-			</Deferred>
-		</div>
-	);
 
 	return (
 		<GuestLayout>
@@ -291,43 +328,66 @@ export default function ArticlesIndex({
 				description="Explore our latest thoughts and insights"
 			/>
 
-			<div className="bg-slate-50/50 py-12 lg:py-24 dark:bg-slate-900/50">
+			<div className="bg-muted/30 py-12 lg:py-24">
 				<div className="container mx-auto px-6 lg:px-8">
-					<div className="mb-12 flex flex-col gap-4 lg:mb-16">
-						<h2 className="text-sm font-black tracking-[0.3em] text-primary uppercase">
-							Explore
-						</h2>
-						<HeaderSection content="Our" keyword="Articles" />
+					<div className="mb-16 flex flex-col gap-4">
+						<div className="flex items-center gap-3">
+							<div className="h-1 w-12 rounded-full bg-primary" />
+							<h2 className="text-sm font-black tracking-[0.3em] text-primary uppercase">
+								Knowledge Hub
+							</h2>
+						</div>
+						<HeaderSection content="Latest" keyword="Articles" />
 					</div>
 
 					<div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
 						{/* Desktop Sidebar */}
 						<aside className="hidden lg:col-span-3 lg:block">
-							<div className="sticky top-24">
-								<FilterContent />
+							<div className="sticky top-24 rounded-2xl border border-border/40 bg-card/50 p-5 shadow-sm backdrop-blur-sm">
+								<FilterContent
+									search={search}
+									setSearch={setSearch}
+									categories={categories}
+									tags={tags}
+									filters={filters}
+									handleCategoryChange={handleCategoryChange}
+									handleTagChange={handleTagChange}
+								/>
 							</div>
 						</aside>
 
 						{/* Main Content: Articles */}
 						<main className="lg:col-span-9">
-							<div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-								<div className="flex items-center gap-4">
-									<p className="text-sm font-medium text-muted-foreground">
-										Showing{' '}
-										<span className="font-bold text-foreground">
-											{articles?.total || 0}
-										</span>{' '}
-										articles
-									</p>
+							<div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+								<div className="flex flex-wrap items-center gap-3">
+									<div className="flex items-center gap-2 rounded-xl border border-white/50 bg-white/60 px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-md transition-all duration-300 dark:border-slate-700/50 dark:bg-slate-800/60">
+										<Sparkles className="h-3.5 w-3.5 animate-pulse text-primary" />
+										<span>
+											Found{' '}
+											<span className="font-black text-foreground">
+												{articles?.total || 0}
+											</span>{' '}
+											Articles
+											{filters.search && (
+												<span className="ml-1.5 opacity-70">
+													for "
+													<span className="font-bold text-primary">
+														{filters.search}
+													</span>
+													"
+												</span>
+											)}
+										</span>
+									</div>
 
 									{showClearAll && (
-										<Button
-											variant="ghost"
+										<button
 											onClick={clearFilters}
-											className="h-8 rounded-full bg-primary/5 px-4 text-xs font-bold text-primary hover:bg-primary/10"
+											className="flex items-center gap-1.5 rounded-xl bg-muted/50 px-3 py-1.5 text-[10px] font-bold text-muted-foreground transition-all duration-200 hover:cursor-pointer hover:bg-red-50 hover:text-red-500 active:scale-95"
 										>
-											Clear All
-										</Button>
+											<X className="h-3 w-3" />
+											Clear
+										</button>
 									)}
 
 									{/* Mobile Filter Trigger */}
@@ -339,31 +399,47 @@ export default function ArticlesIndex({
 											<Button
 												variant="outline"
 												size="sm"
-												className="rounded-xl border-primary/10 bg-background lg:hidden"
+												className="h-9 rounded-xl border-border/50 bg-card px-4 shadow-sm hover:cursor-pointer lg:hidden"
 											>
-												<Filter className="mr-2 h-4 w-4" />
+												<Filter className="mr-2 h-3.5 w-3.5" />
 												Filters
 												{hasActiveFilters && (
-													<span className="ml-2 flex h-2 w-2 rounded-full bg-primary" />
+													<span className="ml-2 flex h-1.5 w-1.5 rounded-full bg-primary" />
 												)}
 											</Button>
 										</SheetTrigger>
 										<SheetContent
 											side="left"
-											className="w-[300px] overflow-y-auto sm:w-[400px]"
+											className="w-[280px] overflow-y-auto rounded-r-2xl sm:w-[350px]"
 										>
 											<SheetHeader className="mb-8 text-left">
-												<SheetTitle className="text-2xl font-black tracking-tight">
+												<SheetTitle className="flex items-center gap-2.5 text-xl font-black tracking-tight">
+													<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+														<Filter className="h-4 w-4" />
+													</div>
 													Filters
 												</SheetTitle>
 											</SheetHeader>
-											<FilterContent isMobile />
+											<FilterContent
+												search={search}
+												setSearch={setSearch}
+												categories={categories}
+												tags={tags}
+												filters={filters}
+												handleCategoryChange={
+													handleCategoryChange
+												}
+												handleTagChange={
+													handleTagChange
+												}
+												isMobile
+											/>
 										</SheetContent>
 									</Sheet>
 								</div>
 
-								{/* Sort Buttons instead of Select to avoid UI lag */}
-								<div className="flex items-center gap-1 rounded-2xl bg-slate-200/50 p-1 dark:bg-slate-800/50">
+								{/* Sort Buttons */}
+								<div className="flex items-center gap-1 rounded-xl border border-border/40 bg-card p-1 shadow-sm">
 									{sortOptions.map((option) => {
 										const isActive =
 											currentSort === option.sort;
@@ -376,10 +452,10 @@ export default function ArticlesIndex({
 													)
 												}
 												className={cn(
-													'flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-black transition-all',
+													'flex items-center gap-1 rounded-lg px-3 py-1 text-[10px] font-black tracking-widest uppercase transition-all duration-200 hover:cursor-pointer',
 													isActive
-														? 'bg-background text-primary shadow-sm'
-														: 'text-muted-foreground hover:text-foreground',
+														? 'bg-primary text-primary-foreground shadow-sm'
+														: 'text-muted-foreground hover:bg-muted hover:text-foreground',
 												)}
 											>
 												{option.label}
@@ -451,7 +527,7 @@ export default function ArticlesIndex({
 										</div>
 									</>
 								) : (
-									<div className="flex flex-col items-center justify-center py-32 text-center">
+									<div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-border/60 bg-card/30 py-32 text-center backdrop-blur-sm">
 										<div className="mb-6 rounded-full bg-primary/5 p-12">
 											<Search className="h-16 w-16 text-primary opacity-20" />
 										</div>
@@ -464,9 +540,9 @@ export default function ArticlesIndex({
 										</p>
 										<Button
 											onClick={clearFilters}
-											className="mt-8 rounded-2xl bg-primary px-8"
+											className="mt-8 h-12 rounded-2xl bg-primary px-10 font-black tracking-widest uppercase shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl"
 										>
-											Clear All Filters
+											Reset All Filters
 										</Button>
 									</div>
 								)}
