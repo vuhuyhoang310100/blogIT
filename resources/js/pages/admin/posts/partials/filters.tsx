@@ -6,11 +6,11 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import PostController from '@/actions/App/Http/Controllers/Admin/PostController';
 import { FilterSection } from '@/components/filter-section';
-import { SearchBox } from '@/components/search-box';
+import SearchBox, { SearchBoxRef } from '@/components/search-box';
 import {
 	METRIC_FILTER_SUFFIXES,
 	RESERVED_FILTER_KEYS,
@@ -46,11 +46,15 @@ export function PostFilterAdvance({
 }) {
 	const [open, setOpen] = useState(false);
 	const [localFilters, setLocalFilters] = useState<PostFilters>(filters);
+	const inputRef = useRef<SearchBoxRef>(null);
 
 	// Sync local filters with prop when opened
 	useEffect(() => {
 		if (open) {
 			setLocalFilters(filters);
+		}
+		if (filters.length == 0) {
+			inputRef.current?.reset();
 		}
 	}, [open, filters]);
 
@@ -61,7 +65,6 @@ export function PostFilterAdvance({
 	const apply = (next: Partial<PostFilters>) => {
 		const payload = cleanFilters({
 			...next,
-			page: 1,
 		});
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,7 +81,9 @@ export function PostFilterAdvance({
 	};
 
 	const handleReset = () => {
-		setLocalFilters({} as PostFilters);
+		setLocalFilters({
+			q: localFilters.q ?? '',
+		} as PostFilters);
 	};
 
 	const removeFilter = (key: string) => {
@@ -186,6 +191,7 @@ export function PostFilterAdvance({
 
 				<div className="max-w-md min-w-[200px] flex-1">
 					<SearchBox
+						ref={inputRef}
 						defaultValue={filters.q ?? ''}
 						placeholder="Search posts..."
 						onSearch={(q) => apply({ ...filters, q })}
