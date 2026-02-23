@@ -18,28 +18,29 @@ export function SeoHead({
 }: Partial<SeoProps>) {
 	const { seo, pageSeo } = usePage<SharedData>().props;
 
-	console.log(pageSeo);
-	const siteName = seo.open_graph.site_name;
+	const pSeo = pageSeo || {};
+	const sMeta = seo.meta;
+	const sOg = seo.open_graph;
 
-	const meta = seo.meta;
+	const siteName = sOg.site_name;
 
 	// Priority: Component > Page override > Shared default
-	const finalTitle = title ?? pageSeo?.title ?? meta.title;
+	const finalTitle = title || pSeo.title || sMeta.title;
 
 	const displayTitle = finalTitle.includes(siteName)
 		? finalTitle
 		: `${finalTitle} - ${siteName}`;
 
 	const finalDescription =
-		description ?? pageSeo?.description ?? meta.description;
+		description || pSeo.description || sMeta.description;
 
-	const finalKeywords = keywords ?? pageSeo?.keywords ?? meta.keywords;
+	const finalKeywords = keywords || pSeo.keywords || sMeta.keywords;
 
-	const finalImage = image ?? pageSeo?.image ?? meta.image;
+	const finalImage = image || pSeo.image || sMeta.image;
 
-	const finalType = type ?? pageSeo?.type ?? seo.open_graph.type;
+	const finalType = type || pSeo.type || sOg.type;
 
-	const pagination = pageSeo?.pagination;
+	const pagination = pSeo.pagination;
 
 	const url = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -56,9 +57,13 @@ export function SeoHead({
 			<link rel="canonical" href={canonical} />
 
 			{/* Pagination SEO */}
-			{pagination?.prev && <link rel="prev" href={pagination.prev} />}
+			{pagination && pagination.prev && (
+				<link rel="prev" href={pagination.prev} />
+			)}
 
-			{pagination?.next && <link rel="next" href={pagination.next} />}
+			{pagination && pagination.next && (
+				<link rel="next" href={pagination.next} />
+			)}
 
 			{/* OpenGraph */}
 			<meta property="og:title" content={displayTitle} />
