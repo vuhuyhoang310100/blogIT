@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('frontend/categories/index', [
-            'pageSeo' => $this->seoFactory->categoryIndex(),
+            'pageSeo' => $this->seoFactory->categoryIndex()->toArray(),
             'categories' => fn () => $this->categoryService->getCategoriesWithPosts(),
         ]);
     }

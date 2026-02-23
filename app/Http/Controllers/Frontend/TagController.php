@@ -18,7 +18,7 @@ class TagController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('frontend/tags/index', [
-            'pageSeo' => $this->seoFactory->tagIndex(),
+            'pageSeo' => $this->seoFactory->tagIndex()->toArray(),
             'tags' => fn () => $this->tagService->getTagsWithPosts(),
         ]);
     }

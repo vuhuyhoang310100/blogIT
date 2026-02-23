@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function __invoke(Request $request): Response
     {
         return Inertia::render('welcome', [
-            'pageSeo' => $this->seoFactory->home(),
+            'pageSeo' => $this->seoFactory->home()->toArray(),
             'latestPosts' => Inertia::defer(fn () => $this->homeService->getLatestPosts()),
             'featuredPosts' => Inertia::defer(fn () => $this->homeService->getFeaturedPosts()),
 

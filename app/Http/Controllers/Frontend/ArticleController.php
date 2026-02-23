@@ -27,7 +27,7 @@ class ArticleController extends Controller
         $articles = $this->articleService->getArticles($queryDTO);
 
         return Inertia::render('frontend/articles/index', [
-            'pageSeo' => $this->seoFactory->articlesIndex($articles),
+            'pageSeo' => $this->seoFactory->articlesIndex($articles)->toArray(),
 
             'articles' => fn () => $articles, // lazy load
 
