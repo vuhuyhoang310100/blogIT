@@ -29,7 +29,7 @@ export function SelectFilter({
 	return (
 		<FilterSection title={title} icon={icon}>
 			<Select value={value} onValueChange={onValueChange}>
-				<SelectTrigger className="h-9 w-full text-xs hover:cursor-pointer">
+				<SelectTrigger className="h-9 w-full cursor-pointer text-xs">
 					<SelectValue placeholder={placeholder} />
 				</SelectTrigger>
 				<SelectContent className="max-h-[200px]">
@@ -37,7 +37,7 @@ export function SelectFilter({
 						<SelectItem
 							key={option.value}
 							value={option.value}
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							{option.label}
 						</SelectItem>

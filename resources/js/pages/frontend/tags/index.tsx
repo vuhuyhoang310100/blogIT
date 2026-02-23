@@ -113,7 +113,7 @@ export default function TagsIndex({ tags }: TagsIndexProps) {
 							</p>
 							<button
 								onClick={() => setSearchQuery('')}
-								className="mt-2 text-sm font-bold text-primary hover:cursor-pointer hover:underline"
+								className="mt-2 cursor-pointer text-sm font-bold text-primary hover:underline"
 							>
 								Clear search
 							</button>

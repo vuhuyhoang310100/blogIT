@@ -353,7 +353,7 @@ export default function PostIndex({
 										variant="outline"
 										size="sm"
 										onClick={onReset}
-										className="h-9 bg-secondary hover:cursor-pointer hover:bg-secondary/80 hover:text-destructive"
+										className="h-9 cursor-pointer bg-secondary hover:bg-secondary/80 hover:text-destructive"
 									>
 										<X className="h-4 w-4" />
 										Clear Filters
@@ -386,7 +386,7 @@ export default function PostIndex({
 												onCheckedChange={(v) =>
 													toggleAllPage(!!v)
 												}
-												className="size-4 hover:cursor-pointer"
+												className="size-4 cursor-pointer"
 											/>
 										</TableHead>
 										<TableHead className="w-[40px]">
@@ -446,7 +446,7 @@ export default function PostIndex({
 																}),
 															)
 														}
-														className="size-4 hover:cursor-pointer"
+														className="size-4 cursor-pointer"
 													/>
 												</TableCell>
 												<TableCell className="font-medium">
@@ -552,7 +552,7 @@ export default function PostIndex({
 															<Button
 																variant="ghost"
 																size="icon"
-																className="size-8 hover:cursor-pointer"
+																className="size-8 cursor-pointer"
 															>
 																<EllipsisVertical className="size-4" />
 																<span className="sr-only">
@@ -572,7 +572,7 @@ export default function PostIndex({
 																				post,
 																			)
 																		}
-																		className="hover:cursor-pointer hover:bg-sky-50 hover:text-sky-600"
+																		className="cursor-pointer hover:bg-sky-50 hover:text-sky-600"
 																	>
 																		<View className="mr-2 size-4 text-sky-500" />
 																		Preview
@@ -589,7 +589,7 @@ export default function PostIndex({
 																						post,
 																					)
 																				}
-																				className="hover:cursor-pointer hover:bg-emerald-50 hover:text-emerald-600"
+																				className="cursor-pointer hover:bg-emerald-50 hover:text-emerald-600"
 																			>
 																				<Check className="mr-2 size-4 text-emerald-500" />
 																				Publish
@@ -607,7 +607,7 @@ export default function PostIndex({
 																						post,
 																					)
 																				}
-																				className="hover:cursor-pointer hover:bg-amber-50 hover:text-amber-600"
+																				className="cursor-pointer hover:bg-amber-50 hover:text-amber-600"
 																			>
 																				<Ban className="mr-2 size-4 text-amber-500" />
 																				Unpublish
@@ -622,7 +622,7 @@ export default function PostIndex({
 																				post,
 																			)
 																		}
-																		className="hover:cursor-pointer hover:bg-orange-200 hover:text-orange-600"
+																		className="cursor-pointer hover:bg-orange-200 hover:text-orange-600"
 																	>
 																		<Edit className="mr-2 size-4 text-purple-500" />
 																		Edit
@@ -633,7 +633,7 @@ export default function PostIndex({
 																				post,
 																			)
 																		}
-																		className="hover:cursor-pointer hover:bg-cyan-50 hover:text-cyan-600"
+																		className="cursor-pointer hover:bg-cyan-50 hover:text-cyan-600"
 																	>
 																		<Copy className="mr-2 size-4 text-cyan-500" />
 																		Copy
@@ -649,7 +649,7 @@ export default function PostIndex({
 																						post,
 																					)
 																				}
-																				className="text-red-600 hover:cursor-pointer focus:bg-red-50 focus:text-red-600"
+																				className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-600"
 																			>
 																				<Trash2 className="mr-2 size-4 text-red-500" />
 																				Delete
@@ -665,7 +665,7 @@ export default function PostIndex({
 																				post,
 																			)
 																		}
-																		className="hover:cursor-pointer hover:bg-emerald-50 hover:text-emerald-600"
+																		className="cursor-pointer hover:bg-emerald-50 hover:text-emerald-600"
 																	>
 																		<RefreshCcw className="mr-2 size-4 text-emerald-500" />
 																		Restore
@@ -676,7 +676,7 @@ export default function PostIndex({
 																				post,
 																			)
 																		}
-																		className="text-red-600 hover:cursor-pointer focus:bg-red-50 focus:text-red-600"
+																		className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-600"
 																	>
 																		<Trash2 className="mr-2 size-4 text-red-500" />
 																		Force
@@ -734,12 +734,12 @@ export default function PostIndex({
 						</AlertDialogHeader>
 
 						<AlertDialogFooter>
-							<AlertDialogCancel className="hover:cursor-pointer">
+							<AlertDialogCancel className="cursor-pointer">
 								Cancel
 							</AlertDialogCancel>
 							<AlertDialogAction
 								onClick={confirmDelete}
-								className="bg-red-500 text-white hover:cursor-pointer hover:bg-destructive"
+								className="cursor-pointer bg-red-500 text-white hover:bg-destructive"
 							>
 								{isTrashedView ? 'Confirm Delete' : 'Delete'}
 							</AlertDialogAction>
@@ -779,13 +779,13 @@ export default function PostIndex({
 						</AlertDialogHeader>
 
 						<AlertDialogFooter>
-							<AlertDialogCancel className="hover:cursor-pointer">
+							<AlertDialogCancel className="cursor-pointer">
 								Cancel
 							</AlertDialogCancel>
 							<AlertDialogAction
 								onClick={confirmBulk}
 								className={cn(
-									'hover:cursor-pointer',
+									'cursor-pointer',
 									bulkIntent === 'restore'
 										? 'bg-primary hover:bg-primary/90'
 										: 'bg-red-500 text-white hover:bg-destructive',

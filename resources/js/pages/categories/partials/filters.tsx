@@ -79,7 +79,7 @@ export function CategoryFilterAdvance({
 					<Button
 						variant="outline"
 						size="sm"
-						className="shrink-0 hover:cursor-pointer"
+						className="shrink-0 cursor-pointer"
 					>
 						<Filter className="h-4 w-4" />
 						Filters
@@ -127,14 +127,14 @@ export function CategoryFilterAdvance({
 							variant="ghost"
 							size="sm"
 							onClick={handleReset}
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							Reset
 						</Button>
 						<Button
 							size="sm"
 							onClick={handleApply}
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							Apply Filter
 						</Button>

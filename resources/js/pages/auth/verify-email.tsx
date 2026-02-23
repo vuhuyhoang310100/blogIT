@@ -32,7 +32,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
 						<Button
 							disabled={processing}
 							variant="secondary"
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							{processing && (
 								<LoaderCircle className="h-4 w-4 animate-spin" />
@@ -42,7 +42,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
 						<TextLink
 							href={logout()}
-							className="mx-auto block text-sm hover:cursor-pointer"
+							className="mx-auto block cursor-pointer text-sm"
 						>
 							Log out
 						</TextLink>

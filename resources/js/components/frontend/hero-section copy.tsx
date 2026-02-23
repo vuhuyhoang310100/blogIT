@@ -319,7 +319,7 @@ export function HeroSection() {
 			<div className="relative z-10 mt-auto pb-10">
 				<button
 					onClick={scrollToNext}
-					className="group flex flex-col items-center gap-3 transition-all hover:cursor-pointer"
+					className="group flex cursor-pointer flex-col items-center gap-3 transition-all"
 				>
 					<span className="text-[9px] font-black tracking-[0.4em] text-slate-400 uppercase opacity-60 group-hover:opacity-100">
 						Scroll down

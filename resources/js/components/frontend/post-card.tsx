@@ -140,7 +140,7 @@ export const PostCard = memo(
 									variant="ghost"
 									size="sm"
 									className={cn(
-										'relative z-10 h-10 gap-2 rounded-full border border-white/10 bg-white/20 px-6 font-bold text-white backdrop-blur-xl transition-all hover:cursor-pointer hover:bg-white hover:text-red-500',
+										'relative z-10 h-10 cursor-pointer gap-2 rounded-full border border-white/10 bg-white/20 px-6 font-bold text-white backdrop-blur-xl transition-all hover:bg-white hover:text-red-500',
 										isLiked &&
 											'border-white bg-white text-red-500',
 									)}
@@ -178,7 +178,7 @@ export const PostCard = memo(
 									variant="ghost"
 									size="icon"
 									className={cn(
-										'relative z-10 h-10 w-10 rounded-full border border-white/10 bg-white/20 font-bold text-white backdrop-blur-xl transition-all hover:cursor-pointer hover:bg-white hover:text-yellow-500',
+										'relative z-10 h-10 w-10 cursor-pointer rounded-full border border-white/10 bg-white/20 font-bold text-white backdrop-blur-xl transition-all hover:bg-white hover:text-yellow-500',
 										isWishlisted &&
 											'border-white bg-white text-yellow-500',
 									)}

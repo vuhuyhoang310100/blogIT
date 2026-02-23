@@ -249,7 +249,7 @@ export function PostForm({
 							type="button"
 							onClick={() => setActiveTab(tab.id)}
 							className={cn(
-								'flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all hover:cursor-pointer',
+								'flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all',
 								activeTab === tab.id
 									? 'bg-background shadow-sm'
 									: 'text-muted-foreground hover:bg-background/50',
@@ -704,7 +704,7 @@ export function PostForm({
 				<Button
 					type="submit"
 					disabled={processing}
-					className="font-bold shadow-lg hover:cursor-pointer"
+					className="cursor-pointer font-bold shadow-lg"
 				>
 					<Save className="size-4" /> {submitLabel}
 				</Button>

@@ -22,7 +22,7 @@ export default function UserProfile() {
 									alt=""
 								/>
 							</div>
-							<button className="absolute -right-2 -bottom-2 rounded-2xl bg-primary p-3 text-white shadow-xl transition-transform hover:scale-110">
+							<button className="absolute -right-2 -bottom-2 cursor-pointer rounded-2xl bg-primary p-3 text-white shadow-xl transition-transform hover:scale-110">
 								<Camera className="h-5 w-5" />
 							</button>
 						</div>

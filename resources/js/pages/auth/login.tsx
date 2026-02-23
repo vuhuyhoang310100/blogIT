@@ -114,11 +114,11 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 									id="remember"
 									name="remember"
 									tabIndex={3}
-									className="h-5 w-5 rounded-md border-border/50 hover:cursor-pointer data-[state=checked]:border-primary data-[state=checked]:bg-primary"
+									className="h-5 w-5 cursor-pointer rounded-md border-border/50 data-[state=checked]:border-primary data-[state=checked]:bg-primary"
 								/>
 								<Label
 									htmlFor="remember"
-									className="text-xs font-bold text-muted-foreground select-none hover:cursor-pointer"
+									className="cursor-pointer text-xs font-bold text-muted-foreground select-none"
 								>
 									Remember me
 								</Label>

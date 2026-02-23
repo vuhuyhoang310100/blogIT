@@ -171,7 +171,7 @@ export default function CategoriesIndex({ categories }: CategoriesIndexProps) {
 							</p>
 							<button
 								onClick={clearSearch}
-								className="rounded-xl bg-primary px-6 py-3 text-sm font-black tracking-widest text-primary-foreground uppercase shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl"
+								className="cursor-pointer rounded-xl bg-primary px-6 py-3 text-sm font-black tracking-widest text-primary-foreground uppercase shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:shadow-xl"
 							>
 								Clear Search
 							</button>

@@ -17,7 +17,7 @@ export function TablePaginationLinks({
 	preserveState = true,
 	preserveScroll = true,
 	replace = false,
-	buttonClassName = 'hover:cursor-pointer hover:bg-gray-900 hover:text-gray-50',
+	buttonClassName = 'cursor-pointer hover:bg-gray-900 hover:text-gray-50',
 }: Props) {
 	if (!links?.length) return null;
 

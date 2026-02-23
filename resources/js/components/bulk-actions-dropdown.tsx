@@ -36,7 +36,7 @@ export function BulkActionsDropdown({
 					variant="outline"
 					size="sm"
 					disabled={disabled}
-					className="hover:cursor-pointer"
+					className="cursor-pointer"
 				>
 					<EllipsisVerticalIcon className="h-4 w-4" />
 					Bulk actions
@@ -49,7 +49,7 @@ export function BulkActionsDropdown({
 						key={action.key}
 						onClick={action.onClick}
 						className={cn(
-							'flex items-center gap-2 py-1 pl-2 transition-colors hover:cursor-pointer',
+							'flex cursor-pointer items-center gap-2 py-1 pl-2 transition-colors',
 							action.destructive
 								? 'text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-950/30'
 								: 'focus:bg-accent focus:text-accent-foreground',

@@ -7,7 +7,7 @@ export function ResetButton({ onReset }: { onReset: () => void }) {
 				size="sm"
 				variant="secondary"
 				onClick={onReset}
-				className="hover:cursor-pointer hover:bg-gray-200"
+				className="cursor-pointer hover:bg-gray-200"
 			>
 				Reset filters
 			</Button>

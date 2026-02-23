@@ -53,7 +53,7 @@ export function TopAuthorsSection({
 							</div>
 							<Button
 								variant="outline"
-								className="h-12 w-full rounded-3xl font-bold transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-white hover:cursor-pointer"
+								className="h-12 w-full cursor-pointer rounded-3xl font-bold transition-all group-hover:border-primary group-hover:bg-primary group-hover:text-white"
 							>
 								<UserPlus className="mr-2 h-4 w-4" /> Follow
 							</Button>

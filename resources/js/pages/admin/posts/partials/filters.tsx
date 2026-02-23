@@ -175,7 +175,7 @@ export function PostFilterAdvance({
 								{getFilterLabel(key, value)}
 								<button
 									onClick={() => removeFilter(key)}
-									className="ml-1 rounded-full p-0.5 transition-colors hover:cursor-pointer hover:bg-muted-foreground/20"
+									className="ml-1 cursor-pointer rounded-full p-0.5 transition-colors hover:bg-muted-foreground/20"
 								>
 									<X className="size-3" />
 								</button>
@@ -198,7 +198,7 @@ export function PostFilterAdvance({
 					<Button
 						variant="outline"
 						size="sm"
-						className="shrink-0 hover:cursor-pointer"
+						className="shrink-0 cursor-pointer"
 					>
 						<Filter className="h-4 w-4" />
 						Filters
@@ -299,14 +299,14 @@ export function PostFilterAdvance({
 							variant="ghost"
 							size="sm"
 							onClick={handleReset}
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							Reset
 						</Button>
 						<Button
 							size="sm"
 							onClick={handleApply}
-							className="hover:cursor-pointer"
+							className="cursor-pointer"
 						>
 							Apply Filter
 						</Button>

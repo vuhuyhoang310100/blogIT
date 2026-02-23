@@ -30,7 +30,7 @@ export function DateSection({
 						onChange={(e) =>
 							onChange('published_at_from', e.target.value)
 						}
-						className="h-9 w-full !text-xs transition-all hover:cursor-pointer focus:ring-2 focus:ring-primary/20"
+						className="h-9 w-full cursor-pointer !text-xs transition-all focus:ring-2 focus:ring-primary/20"
 					/>
 				</div>
 
@@ -41,7 +41,7 @@ export function DateSection({
 						onChange={(e) =>
 							onChange('published_at_to', e.target.value)
 						}
-						className="h-9 w-full !text-xs transition-all hover:cursor-pointer focus:ring-2 focus:ring-primary/20"
+						className="h-9 w-full cursor-pointer !text-xs transition-all focus:ring-2 focus:ring-primary/20"
 					/>
 				</div>
 			</div>

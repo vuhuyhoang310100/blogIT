@@ -97,7 +97,7 @@ const FilterContent = memo(
 						<button
 							onClick={() => handleCategoryChange('all')}
 							className={cn(
-								'flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 hover:cursor-pointer',
+								'flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200',
 								!filters.category
 									? 'bg-primary/10 text-primary'
 									: 'text-muted-foreground hover:bg-muted hover:text-foreground',
@@ -110,7 +110,7 @@ const FilterContent = memo(
 								key={cat.id}
 								onClick={() => handleCategoryChange(cat.slug)}
 								className={cn(
-									'flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200 hover:cursor-pointer',
+									'flex cursor-pointer items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-bold transition-all duration-200',
 									filters.category === cat.slug
 										? 'bg-primary/10 text-primary'
 										: 'text-muted-foreground hover:bg-muted hover:text-foreground',
@@ -142,7 +142,7 @@ const FilterContent = memo(
 						<button
 							onClick={() => handleTagChange('all')}
 							className={cn(
-								'rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200 hover:cursor-pointer',
+								'cursor-pointer rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200',
 								!filters.tag
 									? 'border-primary/20 bg-primary/10 text-primary'
 									: 'border-border/50 bg-card text-muted-foreground hover:border-primary/30 hover:text-primary',
@@ -155,7 +155,7 @@ const FilterContent = memo(
 								key={tag.id}
 								onClick={() => handleTagChange(tag.slug || '')}
 								className={cn(
-									'flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200 hover:cursor-pointer',
+									'flex cursor-pointer items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-bold transition-all duration-200',
 									filters.tag === tag.slug
 										? 'border-primary/20 bg-primary/10 text-primary'
 										: 'border-border/50 bg-card text-muted-foreground hover:border-primary/30 hover:text-primary',
@@ -386,7 +386,7 @@ export default function ArticlesIndex({
 									{showClearAll && (
 										<button
 											onClick={clearFilters}
-											className="flex items-center gap-1.5 rounded-xl bg-muted/50 px-3 py-1.5 text-[10px] font-bold text-muted-foreground transition-all duration-200 hover:cursor-pointer hover:bg-red-50 hover:text-red-500 active:scale-95"
+											className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-muted/50 px-3 py-1.5 text-[10px] font-bold text-muted-foreground transition-all duration-200 hover:bg-red-50 hover:text-red-500 active:scale-95"
 										>
 											<X className="h-3 w-3" />
 											Clear
@@ -402,7 +402,7 @@ export default function ArticlesIndex({
 											<Button
 												variant="outline"
 												size="sm"
-												className="h-9 rounded-xl border-border/50 bg-card px-4 shadow-sm hover:cursor-pointer lg:hidden"
+												className="h-9 cursor-pointer rounded-xl border-border/50 bg-card px-4 shadow-sm lg:hidden"
 											>
 												<Filter className="mr-2 h-3.5 w-3.5" />
 												Filters
@@ -455,7 +455,7 @@ export default function ArticlesIndex({
 													)
 												}
 												className={cn(
-													'flex items-center gap-1 rounded-lg px-3 py-1 text-[10px] font-black tracking-widest uppercase transition-all duration-200 hover:cursor-pointer',
+													'flex cursor-pointer items-center gap-1 rounded-lg px-3 py-1 text-[10px] font-black tracking-widest uppercase transition-all duration-200',
 													isActive
 														? 'bg-primary text-primary-foreground shadow-sm'
 														: 'text-muted-foreground hover:bg-muted hover:text-foreground',
@@ -536,7 +536,7 @@ export default function ArticlesIndex({
 										</p>
 										<Button
 											onClick={clearFilters}
-											className="mt-8 h-12 rounded-2xl bg-primary px-10 font-black tracking-widest uppercase shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:cursor-pointer hover:shadow-xl"
+											className="mt-8 h-12 cursor-pointer rounded-2xl bg-primary px-10 font-black tracking-widest uppercase shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:shadow-xl"
 										>
 											Reset All Filters
 										</Button>

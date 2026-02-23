@@ -58,7 +58,7 @@ export function MultiSelect({
 					role="combobox"
 					aria-expanded={open}
 					className={cn(
-						'h-auto min-h-10 w-full justify-between hover:cursor-pointer',
+						'h-auto min-h-10 w-full cursor-pointer justify-between',
 						className,
 					)}
 				>
@@ -76,7 +76,7 @@ export function MultiSelect({
 									>
 										{option?.label ?? val}
 										<div
-											className="ml-1 rounded-full p-0.5 hover:cursor-pointer hover:bg-muted-foreground/20"
+											className="ml-1 cursor-pointer rounded-full p-0.5 hover:bg-muted-foreground/20"
 											onClick={(e) =>
 												handleRemove(e, val)
 											}
@@ -114,7 +114,7 @@ export function MultiSelect({
 								<div
 									key={option.value}
 									className={cn(
-										'flex items-center gap-1 rounded-sm px-2 py-1.5 text-sm hover:cursor-pointer hover:bg-accent hover:text-accent-foreground',
+										'flex cursor-pointer items-center gap-1 rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground',
 										isSelected && 'bg-accent',
 									)}
 									onClick={() => handleSelect(option.value)}

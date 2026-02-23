@@ -227,7 +227,7 @@ const GuestNavbar = ({
 								<Button
 									variant="ghost"
 									size="icon"
-									className="rounded-full text-muted-foreground transition-colors hover:cursor-pointer hover:text-primary"
+									className="cursor-pointer rounded-full text-muted-foreground transition-colors hover:text-primary"
 								>
 									<Search className="h-5 w-5" />
 								</Button>
@@ -316,7 +316,7 @@ const GuestNavbar = ({
 								variant="ghost"
 								size="icon"
 								className={cn(
-									'hidden rounded-full transition-all hover:cursor-pointer sm:flex',
+									'hidden cursor-pointer rounded-full transition-all sm:flex',
 									auth.user
 										? 'text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30'
 										: 'text-muted-foreground hover:text-primary',
@@ -338,7 +338,7 @@ const GuestNavbar = ({
 									<Button
 										variant="ghost"
 										size="icon"
-										className="relative rounded-full text-muted-foreground transition-all hover:cursor-pointer hover:text-primary"
+										className="relative cursor-pointer rounded-full text-muted-foreground transition-all hover:text-primary"
 									>
 										<Bell className="h-5 w-5" />
 										<span className="absolute top-2 right-2 h-2 w-2 animate-pulse rounded-full bg-primary ring-2 ring-background"></span>
@@ -392,7 +392,7 @@ const GuestNavbar = ({
 								<div className="bg-secondary/30 p-4 text-center">
 									<Button
 										variant="ghost"
-										className="w-full text-[10px] font-black tracking-widest uppercase hover:cursor-pointer hover:text-primary"
+										className="w-full cursor-pointer text-[10px] font-black tracking-widest uppercase hover:text-primary"
 									>
 										View All Notifications
 									</Button>
@@ -406,7 +406,7 @@ const GuestNavbar = ({
 								<Button
 									variant="ghost"
 									size="icon"
-									className="hidden rounded-full text-muted-foreground transition-colors hover:cursor-pointer hover:text-primary sm:flex"
+									className="hidden cursor-pointer rounded-full text-muted-foreground transition-colors hover:text-primary sm:flex"
 								>
 									<Settings className="h-5 w-5" />
 								</Button>
@@ -426,7 +426,7 @@ const GuestNavbar = ({
 												: 'ghost'
 										}
 										size="sm"
-										className="h-8 justify-start rounded-xl px-2 hover:cursor-pointer"
+										className="h-8 cursor-pointer justify-start rounded-xl px-2"
 										onClick={() =>
 											updateAppearance('light')
 										}
@@ -443,7 +443,7 @@ const GuestNavbar = ({
 												: 'ghost'
 										}
 										size="sm"
-										className="h-8 justify-start rounded-xl px-2 hover:cursor-pointer"
+										className="h-8 cursor-pointer justify-start rounded-xl px-2"
 										onClick={() => updateAppearance('dark')}
 									>
 										<Moon className="mr-2 h-4 w-4" />
@@ -460,7 +460,7 @@ const GuestNavbar = ({
 									<DropdownMenuItem
 										key={lang.code}
 										className={cn(
-											'flex items-center justify-between rounded-xl px-3 py-2 font-bold transition-all hover:cursor-pointer',
+											'flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 font-bold transition-all',
 											currentLang === lang.code
 												? 'bg-primary/10 text-primary'
 												: 'hover:bg-secondary',

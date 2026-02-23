@@ -132,7 +132,7 @@ export function PricingSection() {
 							</div>
 							<Button
 								className={cn(
-									'mt-12 h-14 w-full rounded-xl text-lg font-black transition-all hover:cursor-pointer',
+									'mt-12 h-14 w-full cursor-pointer rounded-xl text-lg font-black transition-all',
 									tier.featured
 										? 'bg-primary text-white shadow-xl shadow-primary/20 hover:shadow-primary/40'
 										: 'bg-secondary text-foreground hover:bg-primary hover:text-white',

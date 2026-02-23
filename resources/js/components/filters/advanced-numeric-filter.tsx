@@ -79,7 +79,7 @@ export function AdvancedNumericFilter({
 	return (
 		<div className="flex items-center gap-1.5 py-1">
 			<Select value={selectedField} onValueChange={setSelectedField}>
-				<SelectTrigger className="h-8 w-1/2 text-xs hover:cursor-pointer">
+				<SelectTrigger className="h-8 w-1/2 cursor-pointer text-xs">
 					<SelectValue placeholder="Field" />
 				</SelectTrigger>
 				<SelectContent>
@@ -96,7 +96,7 @@ export function AdvancedNumericFilter({
 			</Select>
 
 			<Select value={operator} onValueChange={setOperator}>
-				<SelectTrigger className="h-8 w-1/4 text-xs hover:cursor-pointer">
+				<SelectTrigger className="h-8 w-1/4 cursor-pointer text-xs">
 					<SelectValue placeholder="Op" />
 				</SelectTrigger>
 				<SelectContent>
@@ -117,7 +117,7 @@ export function AdvancedNumericFilter({
 				placeholder="Value"
 				value={value}
 				onChange={(e) => setValue(e.target.value)}
-				className="h-8 w-1/4 text-xs hover:cursor-pointer"
+				className="h-8 w-1/4 cursor-pointer text-xs"
 			/>
 		</div>
 	);

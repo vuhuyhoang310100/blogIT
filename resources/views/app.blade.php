@@ -40,7 +40,12 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         @viteReactRefresh
-        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+        @php
+            $cssFile = (str_starts_with($page['component'], 'frontend/') || str_starts_with($page['component'], 'welcome'))
+                ? 'resources/css/frontend.css'
+                : 'resources/css/app.css';
+        @endphp
+        @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx", $cssFile])
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

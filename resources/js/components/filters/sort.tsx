@@ -18,7 +18,7 @@ export function SortOrderFilter<T extends BaseFilter>({
 				value={filters.sort ?? ''}
 				onValueChange={(v) => apply({ sort: v } as Partial<T>)}
 			>
-				<SelectTrigger className="h-8 flex-1 text-xs hover:cursor-pointer">
+				<SelectTrigger className="h-8 flex-1 cursor-pointer text-xs">
 					<SelectValue placeholder="Sort by" />
 				</SelectTrigger>
 				<SelectContent>
@@ -40,7 +40,7 @@ export function SortOrderFilter<T extends BaseFilter>({
 					apply({ direction: v as 'asc' | 'desc' } as Partial<T>)
 				}
 			>
-				<SelectTrigger className="h-8 w-[120px] text-xs hover:cursor-pointer">
+				<SelectTrigger className="h-8 w-[120px] cursor-pointer text-xs">
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>

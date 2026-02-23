@@ -47,7 +47,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 								<SidebarMenuItem>
 									<CollapsibleTrigger asChild>
 										<SidebarMenuButton
-											className="hover:cursor-pointer"
+											className="cursor-pointer"
 											tooltip={item.title}
 											isActive={
 												item.isActive ||
