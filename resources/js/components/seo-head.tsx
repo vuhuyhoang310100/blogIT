@@ -18,6 +18,10 @@ export function SeoHead({
 }: SeoProps) {
 	const page = usePage<SharedData>();
 
+	if (!page.props) {
+		return null;
+	}
+
 	const seo = page.props?.seo;
 	const pageSeo = page.props?.pageSeo;
 
