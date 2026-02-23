@@ -76,6 +76,7 @@ class ArticleService
                 'likes_count',
                 'comments_count',
                 'created_at',
+                'updated_at',
             ],
             ['user:id,name', 'category:id,name,slug', 'tags:id,name,slug']
         );

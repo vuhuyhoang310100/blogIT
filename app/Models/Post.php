@@ -24,7 +24,7 @@ class Post extends Model implements HasSeo
 
     public function seo(): array
     {
-        return $this->mergeSeo([
+        return [
             'title' => $this->title,
             'description' => Str::limit($this->excerpt, 155),
 
@@ -37,7 +37,7 @@ class Post extends Model implements HasSeo
 
             // JSON-LD schema
             'schema' => $this->schema(),
-        ]);
+        ];
     }
 
     protected function schema(): array
@@ -261,6 +261,7 @@ class Post extends Model implements HasSeo
                 'image',
                 'is_featured',
                 'created_at',
+                'updated_at',
             ]);
     }
 }
