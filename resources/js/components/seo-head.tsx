@@ -15,30 +15,32 @@ export function SeoHead({
 	keywords,
 	image,
 	type,
-}: Partial<SeoProps>) {
-	const { seo, pageSeo } = usePage<SharedData>().props;
+}: SeoProps) {
+	const page = usePage<SharedData>();
 
-	const pSeo = pageSeo || {};
-	const sMeta = seo.meta;
-	const sOg = seo.open_graph;
+	const seo = page.props?.seo;
+	const pageSeo = page.props?.pageSeo;
 
-	const siteName = sOg.site_name;
+	const pSeo = pageSeo ?? {};
+	const sMeta = seo?.meta ?? {};
+	const sOg = seo?.open_graph ?? {};
 
-	// Priority: Component > Page override > Shared default
-	const finalTitle = title || pSeo.title || sMeta.title;
+	const siteName = sOg.site_name ?? 'BlogIT';
+
+	const finalTitle = title ?? pSeo.title ?? sMeta.title ?? 'BlogIT';
 
 	const displayTitle = finalTitle.includes(siteName)
 		? finalTitle
 		: `${finalTitle} - ${siteName}`;
 
 	const finalDescription =
-		description || pSeo.description || sMeta.description;
+		description ?? pSeo.description ?? sMeta.description ?? '';
 
-	const finalKeywords = keywords || pSeo.keywords || sMeta.keywords;
+	const finalKeywords = keywords ?? pSeo.keywords ?? sMeta.keywords ?? '';
 
-	const finalImage = image || pSeo.image || sMeta.image;
+	const finalImage = image ?? pSeo.image ?? sMeta.image ?? '';
 
-	const finalType = type || pSeo.type || sOg.type;
+	const finalType = type ?? pSeo.type ?? sOg.type ?? 'website';
 
 	const pagination = pSeo.pagination;
 
@@ -53,26 +55,18 @@ export function SeoHead({
 			<meta name="description" content={finalDescription} />
 			<meta name="keywords" content={finalKeywords} />
 
-			{/* Canonical */}
 			<link rel="canonical" href={canonical} />
 
-			{/* Pagination SEO */}
-			{pagination && pagination.prev && (
-				<link rel="prev" href={pagination.prev} />
-			)}
+			{pagination?.prev && <link rel="prev" href={pagination.prev} />}
 
-			{pagination && pagination.next && (
-				<link rel="next" href={pagination.next} />
-			)}
+			{pagination?.next && <link rel="next" href={pagination.next} />}
 
-			{/* OpenGraph */}
 			<meta property="og:title" content={displayTitle} />
 			<meta property="og:description" content={finalDescription} />
 			<meta property="og:type" content={finalType} />
 			<meta property="og:site_name" content={siteName} />
 			<meta property="og:image" content={finalImage} />
 
-			{/* Twitter */}
 			<meta name="twitter:card" content="summary_large_image" />
 			<meta name="twitter:title" content={displayTitle} />
 			<meta name="twitter:description" content={finalDescription} />
