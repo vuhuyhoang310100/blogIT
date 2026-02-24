@@ -7,6 +7,7 @@ namespace App\Repositories\Cache;
 use App\Repositories\Contracts\BaseRepositoryInterface;
 use App\Repositories\Contracts\TagRepositoryInterface;
 use App\Repositories\Exceptions\RepositoryException;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property TagRepositoryInterface $inner
@@ -26,5 +27,19 @@ final class CachedTagRepository extends CachedRepository implements TagRepositor
         }
 
         parent::__construct($inner, $cache, $namespace);
+    }
+
+    /**
+     * Get tags that have at least one published post.
+     *
+     * @return Collection Tag models with at least one published post.
+     */
+    public function getActiveWithPosts(): Collection
+    {
+        return $this->remember(
+            'getActiveWithPosts',
+            [],
+            fn (): Collection => $this->inner->getActiveWithPosts()
+        );
     }
 }

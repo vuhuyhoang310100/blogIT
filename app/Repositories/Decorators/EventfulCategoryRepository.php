@@ -8,6 +8,7 @@ use App\DTOs\Category\CategoryFilterDTO;
 use App\Repositories\Contracts\BaseRepositoryInterface;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Repositories\Exceptions\RepositoryException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -18,10 +19,8 @@ final class EventfulCategoryRepository extends EventfulRepository implements Cat
     /**
      * @param  CategoryRepositoryInterface  $inner  The inner repository (enforced by type hint and check).
      */
-    public function __construct(
-        BaseRepositoryInterface $inner,
-        string $namespace
-    ) {
+    public function __construct(BaseRepositoryInterface $inner, string $namespace)
+    {
         if (! $inner instanceof CategoryRepositoryInterface) {
             throw new RepositoryException('Inner repository must implement CategoryRepositoryInterface');
         }
@@ -29,8 +28,22 @@ final class EventfulCategoryRepository extends EventfulRepository implements Cat
         parent::__construct($inner, $namespace);
     }
 
+    /**
+     * Fetch all categories with their children (if onlyRoot is false) and filter by the given DTO.
+     *
+     * @param  bool  $onlyRoot  If true, only fetch root categories.
+     * @param  CategoryFilterDTO  $dto  The filter DTO.
+     */
     public function getAll($onlyRoot, CategoryFilterDTO $dto): LengthAwarePaginator
     {
         return $this->inner->getAll($onlyRoot, $dto);
+    }
+
+    /**
+     * Get all active categories that have at least one published post.
+     */
+    public function getActiveWithPosts(): Collection
+    {
+        return $this->inner->getActiveWithPosts();
     }
 }
