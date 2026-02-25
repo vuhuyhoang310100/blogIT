@@ -7,6 +7,7 @@ namespace App\Repositories\Decorators;
 use App\Repositories\Contracts\BaseRepositoryInterface;
 use App\Repositories\Contracts\TagRepositoryInterface;
 use App\Repositories\Exceptions\RepositoryException;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property TagRepositoryInterface $inner
@@ -16,14 +17,20 @@ final class EventfulTagRepository extends EventfulRepository implements TagRepos
     /**
      * @param  TagRepositoryInterface  $inner  The inner repository (enforced by type hint and check).
      */
-    public function __construct(
-        BaseRepositoryInterface $inner,
-        string $namespace
-    ) {
+    public function __construct(BaseRepositoryInterface $inner, string $namespace)
+    {
         if (! $inner instanceof TagRepositoryInterface) {
             throw new RepositoryException('Inner repository must implement TagRepositoryInterface');
         }
 
         parent::__construct($inner, $namespace);
+    }
+
+    /**
+     * Get tags that have at least one published post.
+     */
+    public function getActiveWithPosts(): Collection
+    {
+        return $this->inner->getActiveWithPosts();
     }
 }

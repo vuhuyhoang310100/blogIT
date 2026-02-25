@@ -19,10 +19,13 @@ import { usePermissions } from '@/hooks/use-permissions';
 import AppLayout from '@/layouts/app-layout';
 import { useDialogStore } from '@/lib/dialog-store';
 import { Permission, SinglePermission, type BreadcrumbItem } from '@/types';
+import { PermissionFilters } from '@/types/permission';
 import { Head, useForm } from '@inertiajs/react';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import CreatePermissionDialog from './partials/create-dialog';
 import EditPermissionDialog from './partials/edit-dialog';
+import { PermissionFilterAdvance } from './partials/filters';
 
 const breadcrumbs: BreadcrumbItem[] = [
 	{
@@ -33,8 +36,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Permissions({
 	permissions,
+	filters,
 }: {
 	permissions: Permission;
+	filters: PermissionFilters;
 }) {
 	const [openAddNewPermissionDialog, setOpenAddNewPermissionDialog] =
 		useState(false);
@@ -70,20 +75,30 @@ export default function Permissions({
 			<Head title="Permissions" />
 			<div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
 				<Card>
-					<CardHeader className="flex items-center justify-between">
-						<CardTitle>Permissions Managements</CardTitle>
-						<CardAction>
-							{can('create_permissions') && (
-								<Button
-									variant="default"
-									onClick={() => {
-										setOpenAddNewPermissionDialog(true);
-									}}
-								>
-									Add new
-								</Button>
-							)}
-						</CardAction>
+					<CardHeader className="space-y-4 border-b">
+						<div className="flex items-center justify-between">
+							<CardTitle>Permissions Managements</CardTitle>
+							<CardAction>
+								{can('create_permissions') && (
+									<Button
+										variant="default"
+										onClick={() => {
+											setOpenAddNewPermissionDialog(true);
+										}}
+									>
+										Add new
+									</Button>
+								)}
+							</CardAction>
+						</div>
+						<br />
+						{/* BOTTOM HEADER */}
+						<div className="flex flex-wrap items-center justify-end gap-4">
+							{/* RIGHT: SEARCH / FILTER */}
+							<div className="flex-end flex flex-wrap items-center gap-2">
+								<PermissionFilterAdvance filters={filters} />
+							</div>
+						</div>
 					</CardHeader>
 					<hr />
 					<CardContent>
@@ -107,10 +122,16 @@ export default function Permissions({
 											{permission.description}
 										</TableCell>
 										<TableCell>
-											{permission.created_at}
+											{format(
+												permission.created_at,
+												'dd-MM-yyyy',
+											)}
 										</TableCell>
 										<TableCell>
-											{permission.updated_at}
+											{format(
+												permission.updated_at,
+												'dd-MM-yyyy',
+											)}
 										</TableCell>
 										<TableCell>
 											{can('edit_permissions') && (

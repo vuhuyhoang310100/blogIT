@@ -60,7 +60,6 @@ import {
 	Edit,
 	EllipsisVertical,
 	FileSearch,
-	Plus,
 	RefreshCcw,
 	Star,
 	Trash2,
@@ -286,7 +285,8 @@ export default function PostIndex({
 			filters.tag_id ||
 			filters.trashed ||
 			filters.published_at_from ||
-			filters.published_at_to,
+			filters.published_at_to ||
+			filters.is_featured,
 	);
 
 	const onReset = () => {
@@ -318,7 +318,6 @@ export default function PostIndex({
 									href={PostController.create.url()}
 									prefetch
 								>
-									<Plus className="mr-2 h-4 w-4" />
 									Add new
 								</Link>
 							</Button>
